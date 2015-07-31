@@ -220,8 +220,4 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    public interface SectionTitleProvider{
-        String getSectionTitle(int position);
-    }
-
 }

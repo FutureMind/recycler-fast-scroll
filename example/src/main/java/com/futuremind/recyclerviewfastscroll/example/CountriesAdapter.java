@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.futuremind.recyclerviewfastscroll.FastScroller;
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by mklimczak on 31/07/15.
  */
-public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesHolder> implements FastScroller.SectionTitleProvider {
+public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesHolder> implements SectionTitleProvider {
 
     List<String> countries;
     LayoutInflater inflater;
