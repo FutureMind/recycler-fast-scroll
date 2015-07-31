@@ -73,12 +73,12 @@ public class FastScroller extends LinearLayout {
                     manuallyChangingPosition = true;
                     float yInParent = event.getRawY() - Utils.getViewRawY(handle);
                     setPosition(Utils.getValueInRange(0, 1, yInParent / (getHeight() - handle.getHeight())));
-                    bubble.show();
+                    if(titleProvider!=null) bubble.show();
                     setRecyclerViewPosition(yInParent);
                     return true;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     manuallyChangingPosition = false;
-                    bubble.hide();
+                    if(titleProvider!=null) bubble.hide();
                     return true;
                 }
                 return false;
