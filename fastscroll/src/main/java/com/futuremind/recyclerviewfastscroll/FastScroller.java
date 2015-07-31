@@ -1,44 +1,27 @@
 package com.futuremind.recyclerviewfastscroll;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * Created by mklimczak on 28/07/15.
  */
 public class FastScroller extends LinearLayout {
 
-
-    private static final int BUBBLE_HIDE_DELAY = 1000;
-    private static final int BUBBLE_ANIMATION_DURATION = 200;
-    private static final String SCALE_X = "scaleX";
-    private static final String SCALE_Y = "scaleY";
-    private static final String ALPHA = "alpha";
-
-    private TextView bubble;
+    private FastScrollBubble bubble;
     private View handle;
 
     private RecyclerView recyclerView;
 
-    private final BubbleHider bubbleHider = new BubbleHider();
     private final ScrollListener scrollListener = new ScrollListener();
     private int height;
 
     private boolean manuallyChangingPosition;
-
-    private AnimatorSet bubbleHideAnimator = null;
 
     private SectionTitleProvider titleProvider;
 
@@ -57,7 +40,7 @@ public class FastScroller extends LinearLayout {
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.fastscroller, this);
-        bubble = (TextView) findViewById(R.id.fastscroller_bubble);
+        bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
         handle = findViewById(R.id.fastscroller_handle);
 
         handle.setOnTouchListener(new OnTouchListener() {
@@ -67,18 +50,12 @@ public class FastScroller extends LinearLayout {
                     manuallyChangingPosition = true;
                     float yInParent = event.getRawY() - getViewRawY(handle);
                     setPosition(getValueInRange(0, 1, yInParent / (height - handle.getHeight())));
-                    if (bubbleHideAnimator != null) {
-                        bubbleHideAnimator.cancel();
-                    }
-                    getHandler().removeCallbacks(bubbleHider);
-                    if (bubble.getVisibility() == INVISIBLE) {
-                        showBubble();
-                    }
+                    bubble.show();
                     setRecyclerViewPosition(yInParent);
                     return true;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     manuallyChangingPosition = false;
-                    getHandler().postDelayed(bubbleHider, BUBBLE_HIDE_DELAY);
+                    bubble.hide();
                     return true;
                 }
                 return false;
@@ -153,58 +130,11 @@ public class FastScroller extends LinearLayout {
     private void setPosition(float y) {
         int bubbleOffset = (int) (((float)handle.getHeight()/2f)-bubble.getHeight());
         bubble.setY(getValueInRange(
-                0,
-                height - bubble.getHeight(),
-                y*(height-handle.getHeight())+bubbleOffset)
-            );
-        handle.setY(y*(height - handle.getHeight()));
-    }
-
-    private void showBubble() {
-        AnimatorSet animatorSet = new AnimatorSet();
-        bubble.setPivotX(bubble.getWidth());
-        bubble.setPivotY(bubble.getHeight());
-        bubble.setVisibility(VISIBLE);
-        Animator growerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 0f, 1f).setDuration(BUBBLE_ANIMATION_DURATION);
-        Animator growerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 0f, 1f).setDuration(BUBBLE_ANIMATION_DURATION);
-        Animator alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 0f, 1f).setDuration(BUBBLE_ANIMATION_DURATION);
-        animatorSet.setInterpolator(new DecelerateInterpolator());
-        animatorSet.playTogether(growerX, growerY, alpha);
-        animatorSet.start();
-    }
-
-    private void hideBubble() {
-        bubbleHideAnimator = new AnimatorSet();
-        bubble.setPivotX(bubble.getWidth());
-        bubble.setPivotY(bubble.getHeight());
-        Animator shrinkerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 1f, 0f).setDuration(BUBBLE_ANIMATION_DURATION);
-        Animator shrinkerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 1f, 0f).setDuration(BUBBLE_ANIMATION_DURATION);
-        Animator alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 1f, 0f).setDuration(BUBBLE_ANIMATION_DURATION);
-        bubbleHideAnimator.setInterpolator(new AccelerateInterpolator());
-        bubbleHideAnimator.playTogether(shrinkerX, shrinkerY, alpha);
-        bubbleHideAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                bubble.setVisibility(INVISIBLE);
-                bubbleHideAnimator = null;
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                super.onAnimationCancel(animation);
-                bubble.setVisibility(INVISIBLE);
-                bubbleHideAnimator = null;
-            }
-        });
-        bubbleHideAnimator.start();
-    }
-
-    private class BubbleHider implements Runnable {
-        @Override
-        public void run() {
-            hideBubble();
-        }
+                        0,
+                        height - bubble.getHeight(),
+                        y * (height - handle.getHeight()) + bubbleOffset)
+        );
+        handle.setY(y * (height - handle.getHeight()));
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
