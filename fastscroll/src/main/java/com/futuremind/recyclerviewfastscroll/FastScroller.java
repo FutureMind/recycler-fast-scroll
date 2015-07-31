@@ -34,6 +34,30 @@ public class FastScroller extends LinearLayout {
         init(context);
     }
 
+    /**
+     * Attach the FastScroller to RecyclerView. Should be used after the Adapter is set
+     * to the RecyclerView. If the adapter implements SectionTitleProvider, the FastScroller
+     * will show a bubble with title.
+     * @param recyclerView A RecyclerView to attach the FastScroller to
+     */
+    public void setRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+        if(recyclerView.getAdapter() instanceof SectionTitleProvider) titleProvider = (SectionTitleProvider) recyclerView.getAdapter();
+        recyclerView.addOnScrollListener(scrollListener);
+        invalidateVisibility();
+        recyclerView.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                invalidateVisibility();
+            }
+
+            @Override
+            public void onChildViewRemoved(View parent, View child) {
+                invalidateVisibility();
+            }
+        });
+    }
+
     private void init(Context context) {
         setOrientation(HORIZONTAL);
         setClipChildren(false);
@@ -74,24 +98,6 @@ public class FastScroller extends LinearLayout {
         } else {
             setVisibility(VISIBLE);
         }
-    }
-
-    public void setRecyclerView(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
-        if(recyclerView.getAdapter() instanceof SectionTitleProvider) titleProvider = (SectionTitleProvider) recyclerView.getAdapter();
-        recyclerView.addOnScrollListener(scrollListener);
-        invalidateVisibility();
-        recyclerView.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
-            @Override
-            public void onChildViewAdded(View parent, View child) {
-                invalidateVisibility();
-            }
-
-            @Override
-            public void onChildViewRemoved(View parent, View child) {
-                invalidateVisibility();
-            }
-        });
     }
 
     private void setRecyclerViewPosition(float y) {
