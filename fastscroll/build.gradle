@@ -28,14 +28,14 @@ ext {
 
     publishedGroupId = 'com.futuremind.recyclerfastscroll'
     libraryName = 'Recycler Fast Scroll'
-    artifact = 'recycler-fast-scroll'
+    artifact = 'fastscroll'
 
     libraryDescription = 'Provides fast scroll and section indexer for recycler view.'
 
     siteUrl = 'https://github.com/FutureMind/recycler-fast-scroll'
     gitUrl = 'https://github.com/FutureMind/recycler-fast-scroll.git'
 
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.1'
 
     developerId = 'mklimczak'
     developerName = 'Michal Klimczak'
