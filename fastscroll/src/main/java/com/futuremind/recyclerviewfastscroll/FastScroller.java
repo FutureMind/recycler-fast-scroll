@@ -15,6 +15,7 @@ public class FastScroller extends LinearLayout {
 
     private FastScrollBubble bubble;
     private View handle;
+    private int scrollerOrientation;
 
     private RecyclerView recyclerView;
 
@@ -59,7 +60,12 @@ public class FastScroller extends LinearLayout {
     }
 
     private void init(Context context) {
-        setOrientation(HORIZONTAL);
+
+        scrollerOrientation = getOrientation();
+
+        //switching orientation, because orientation in linear layout
+        //is something different than orientation of fast scroller
+        setOrientation(getOrientation() == HORIZONTAL ? VERTICAL : HORIZONTAL);
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.fastscroller, this);
