@@ -22,3 +22,10 @@ allprojects {
         jcenter()
     }
 }
+
+ext.compileSdkVersion=22
+ext.buildToolsVersion="23.0.1"
+ext.minSdkVersion="15"
+ext.targetSdkVersion="22"
+ext.versionName="0.1.1"
+ext.versionCode=1
