@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
@@ -14,7 +15,7 @@ import android.widget.LinearLayout;
 public class FastScroller extends LinearLayout {
 
     private FastScrollBubble bubble;
-    private View handle;
+    private ImageView handle;
     private int scrollerOrientation;
 
     private RecyclerView recyclerView;
@@ -68,9 +69,9 @@ public class FastScroller extends LinearLayout {
         setOrientation(getOrientation() == HORIZONTAL ? VERTICAL : HORIZONTAL);
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.fastscroller, this);
+        inflater.inflate(isVertical() ? R.layout.fastscroller_vertical : R.layout.fastscroller_horizontal, this);
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
-        handle = findViewById(R.id.fastscroller_handle);
+        handle = (ImageView) findViewById(R.id.fastscroller_handle);
 
         handle.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -137,6 +138,10 @@ public class FastScroller extends LinearLayout {
                 setPosition(recyclerViewScrollY / (rvHeight - getHeight()));
             }
         }
+    }
+
+    private boolean isVertical(){
+        return scrollerOrientation == VERTICAL;
     }
 
 }

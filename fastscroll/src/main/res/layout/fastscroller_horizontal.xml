@@ -16,10 +16,10 @@
 
     <ImageView
         android:id="@+id/fastscroller_handle"
-        android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fastscroller_handle"
-        android:layout_marginStart="@dimen/fastscroller_track_padding"
-        android:layout_marginEnd="@dimen/fastscroller_track_padding" />
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:src="@drawable/fastscroller_handle_horizontal"
+        android:layout_marginTop="@dimen/fastscroller_track_padding"
+        android:layout_marginBottom="@dimen/fastscroller_track_padding" />
 
 </merge>
