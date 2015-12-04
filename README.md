@@ -8,5 +8,5 @@ Download
 
 Download via Gradle:
 ```groovy
-compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.1'
+compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.2'
 ```
