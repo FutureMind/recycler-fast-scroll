@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '23.0.2'
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "com.futuremind.recyclerviewfastscroll.example"
-        minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 1
-        versionName "0.1.0"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
     buildTypes {
         release {

@@ -3,16 +3,16 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '23.0.2'
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     resourcePrefix "fastscroll__"
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 1
-        versionName "0.1.1"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
     buildTypes {
         release {
@@ -35,7 +35,7 @@ ext {
     siteUrl = 'https://github.com/FutureMind/recycler-fast-scroll'
     gitUrl = 'https://github.com/FutureMind/recycler-fast-scroll.git'
 
-    libraryVersion = '0.1.1'
+    libraryVersion = rootProject.versionName
 
     developerId = 'mklimczak'
     developerName = 'Michal Klimczak'
