@@ -78,11 +78,14 @@ public class FastScroller extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                    if(titleProvider!=null) bubble.show();
                     manuallyChangingPosition = true;
                     float yInParent = event.getRawY() - Utils.getViewRawY(handle);
-                    setPosition(Utils.getValueInRange(0, 1, yInParent / (getHeight() - handle.getHeight())));
-                    if(titleProvider!=null) bubble.show();
-                    setRecyclerViewPosition(yInParent);
+
+                    //TODO move the processing outside
+                    setHandlePosition(Utils.getValueInRange(0, 1, yInParent / (getHeight() - handle.getHeight())));
+                    setRecyclerViewPosition(yInParent/getHeight());
+
                     return true;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     manuallyChangingPosition = false;
@@ -99,7 +102,7 @@ public class FastScroller extends LinearLayout {
                 recyclerView.getAdapter()==null ||
                 recyclerView.getAdapter().getItemCount()==0 ||
                 recyclerView.getChildAt(0)==null ||
-                recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount()<=getHeight()
+                recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount()<=getHeight() //TODO make it dependent on the orientation
                 ){
             setVisibility(INVISIBLE);
         } else {
@@ -107,25 +110,23 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    private void setRecyclerViewPosition(float y) {
+    private void setRecyclerViewPosition(float relativeY) {
         if (recyclerView != null) {
             int itemCount = recyclerView.getAdapter().getItemCount();
-            float proportion;
-            proportion = y / (float) getHeight();
-            int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (proportion * (float) itemCount));
+            int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativeY * (float) itemCount));
             recyclerView.scrollToPosition(targetPos);
             if(titleProvider!=null) bubble.setText(titleProvider.getSectionTitle(targetPos));
         }
     }
 
-    private void setPosition(float y) {
+    private void setHandlePosition(float relativeY) {
         int bubbleOffset = (int) (((float)handle.getHeight()/2f)-bubble.getHeight());
         bubble.setY(Utils.getValueInRange(
                         0,
                         getHeight() - bubble.getHeight(),
-                        y * (getHeight() - handle.getHeight()) + bubbleOffset)
+                        relativeY * (getHeight() - handle.getHeight()) + bubbleOffset)
         );
-        handle.setY(y * (getHeight() - handle.getHeight()));
+        handle.setY(relativeY * (getHeight() - handle.getHeight()));
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
@@ -135,7 +136,7 @@ public class FastScroller extends LinearLayout {
                 View firstVisibleView = recyclerView.getChildAt(0);
                 float rvHeight = firstVisibleView.getHeight() * rv.getAdapter().getItemCount();
                 int recyclerViewScrollY = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getHeight() - firstVisibleView.getTop();
-                setPosition(recyclerViewScrollY / (rvHeight - getHeight()));
+                setHandlePosition(recyclerViewScrollY / (rvHeight - getHeight()));
             }
         }
     }
