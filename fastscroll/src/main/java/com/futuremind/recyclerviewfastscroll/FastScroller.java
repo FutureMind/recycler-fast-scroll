@@ -16,6 +16,8 @@ public class FastScroller extends LinearLayout {
 
     private FastScrollBubble bubble;
     private ImageView handle;
+    private int bubbleOffset;
+
     private int scrollerOrientation;
 
     private RecyclerView recyclerView;
@@ -25,6 +27,7 @@ public class FastScroller extends LinearLayout {
     private boolean manuallyChangingPosition;
 
     private SectionTitleProvider titleProvider;
+
 
     public FastScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -70,6 +73,7 @@ public class FastScroller extends LinearLayout {
         super.onLayout(changed, l, t, r, b);
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
         handle = (ImageView) findViewById(R.id.fastscroller_handle);
+        bubbleOffset = (int) (((float)handle.getHeight()/2f)-bubble.getHeight());
         initHandleMovement();
     }
 
@@ -110,23 +114,23 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    private void setRecyclerViewPosition(float relativeY) {
+    private void setRecyclerViewPosition(float relativePos) {
         if (recyclerView != null) {
             int itemCount = recyclerView.getAdapter().getItemCount();
-            int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativeY * (float) itemCount));
+            int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
             recyclerView.scrollToPosition(targetPos);
             if(titleProvider!=null) bubble.setText(titleProvider.getSectionTitle(targetPos));
         }
     }
 
-    private void setHandlePosition(float relativeY) {
-        int bubbleOffset = (int) (((float)handle.getHeight()/2f)-bubble.getHeight());
+    private void setHandlePosition(float relativePos) {
+        //TODO setX or setY and make it dependent on getWidth or getHeight
         bubble.setY(Utils.getValueInRange(
                         0,
                         getHeight() - bubble.getHeight(),
-                        relativeY * (getHeight() - handle.getHeight()) + bubbleOffset)
+                        relativePos * (getHeight() - handle.getHeight()) + bubbleOffset)
         );
-        handle.setY(relativeY * (getHeight() - handle.getHeight()));
+        handle.setY(relativePos * (getHeight() - handle.getHeight()));
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
