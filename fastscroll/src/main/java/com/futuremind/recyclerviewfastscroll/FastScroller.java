@@ -28,12 +28,17 @@ public class FastScroller extends LinearLayout {
 
     public FastScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        setClipChildren(false);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        inflater.inflate(isVertical() ? R.layout.fastscroller_vertical : R.layout.fastscroller_horizontal, this);
     }
 
-    public FastScroller(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
+    @Override //TODO should probably use some custom orientation instead of linear layout one
+    public void setOrientation(int orientation) {
+        scrollerOrientation = getOrientation();
+        //switching orientation, because orientation in linear layout
+        //is something different than orientation of fast scroller
+        super.setOrientation(getOrientation() == HORIZONTAL ? VERTICAL : HORIZONTAL);
     }
 
     /**
@@ -60,19 +65,15 @@ public class FastScroller extends LinearLayout {
         });
     }
 
-    private void init(Context context) {
-
-        scrollerOrientation = getOrientation();
-
-        //switching orientation, because orientation in linear layout
-        //is something different than orientation of fast scroller
-        setOrientation(getOrientation() == HORIZONTAL ? VERTICAL : HORIZONTAL);
-        setClipChildren(false);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(isVertical() ? R.layout.fastscroller_vertical : R.layout.fastscroller_horizontal, this);
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
         handle = (ImageView) findViewById(R.id.fastscroller_handle);
+        initHandleMovement();
+    }
 
+    private void initHandleMovement() {
         handle.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -91,7 +92,6 @@ public class FastScroller extends LinearLayout {
                 return false;
             }
         });
-
     }
 
     private void invalidateVisibility() {
@@ -131,7 +131,7 @@ public class FastScroller extends LinearLayout {
     private class ScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
-            if(!manuallyChangingPosition) {
+            if(handle!=null && !manuallyChangingPosition) {
                 View firstVisibleView = recyclerView.getChildAt(0);
                 float rvHeight = firstVisibleView.getHeight() * rv.getAdapter().getItemCount();
                 int recyclerViewScrollY = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getHeight() - firstVisibleView.getTop();
