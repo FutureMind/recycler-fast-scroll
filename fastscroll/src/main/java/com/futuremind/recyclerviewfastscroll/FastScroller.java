@@ -82,23 +82,38 @@ public class FastScroller extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+
                     if(titleProvider!=null) bubble.show();
                     manuallyChangingPosition = true;
-                    float yInParent = event.getRawY() - Utils.getViewRawY(handle);
 
-                    //TODO move the processing outside
-                    setHandlePosition(Utils.getValueInRange(0, 1, yInParent / (getHeight() - handle.getHeight())));
-                    setRecyclerViewPosition(yInParent/getHeight());
+                    float relativePos = getRelativeTouchPosition(event);
+                    setHandlePosition(relativePos);
+                    setRecyclerViewPosition(relativePos);
 
                     return true;
+
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
+
                     manuallyChangingPosition = false;
                     if(titleProvider!=null) bubble.hide();
                     return true;
+
                 }
+
                 return false;
+
             }
         });
+    }
+
+    private float getRelativeTouchPosition(MotionEvent event){
+        if(isVertical()){
+            float yInParent = event.getRawY() - Utils.getViewRawY(handle);
+            return yInParent / (getHeight() - handle.getHeight());
+        } else {
+            float xInParent = event.getRawX() - Utils.getViewRawX(handle);
+            return xInParent / (getWidth() - handle.getWidth());
+        }
     }
 
     private void invalidateVisibility() {
@@ -130,7 +145,11 @@ public class FastScroller extends LinearLayout {
                         getHeight() - bubble.getHeight(),
                         relativePos * (getHeight() - handle.getHeight()) + bubbleOffset)
         );
-        handle.setY(relativePos * (getHeight() - handle.getHeight()));
+        handle.setY(Utils.getValueInRange(
+                0,
+                getHeight() - handle.getHeight(),
+                relativePos * (getHeight() - handle.getHeight()))
+        );
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
