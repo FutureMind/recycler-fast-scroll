@@ -73,7 +73,7 @@ public class FastScroller extends LinearLayout {
         super.onLayout(changed, l, t, r, b);
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
         handle = (ImageView) findViewById(R.id.fastscroller_handle);
-        bubbleOffset = (int) (((float)handle.getHeight()/2f)-bubble.getHeight());
+        bubbleOffset = (int) (isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
         initHandleMovement();
     }
 
@@ -121,11 +121,19 @@ public class FastScroller extends LinearLayout {
                 recyclerView.getAdapter()==null ||
                 recyclerView.getAdapter().getItemCount()==0 ||
                 recyclerView.getChildAt(0)==null ||
-                recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount()<=getHeight() //TODO make it dependent on the orientation
+                isRecyclerViewScrollable() //TODO make it dependent on the orientation
                 ){
             setVisibility(INVISIBLE);
         } else {
             setVisibility(VISIBLE);
+        }
+    }
+
+    private boolean isRecyclerViewScrollable() {
+        if(isVertical()) {
+            return recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount() <= getHeight();
+        } else {
+            return recyclerView.getChildAt(0).getWidth() * recyclerView.getAdapter().getItemCount()<=getWidth();
         }
     }
 
@@ -139,17 +147,29 @@ public class FastScroller extends LinearLayout {
     }
 
     private void setHandlePosition(float relativePos) {
-        //TODO setX or setY and make it dependent on getWidth or getHeight
-        bubble.setY(Utils.getValueInRange(
-                        0,
-                        getHeight() - bubble.getHeight(),
-                        relativePos * (getHeight() - handle.getHeight()) + bubbleOffset)
-        );
-        handle.setY(Utils.getValueInRange(
-                0,
-                getHeight() - handle.getHeight(),
-                relativePos * (getHeight() - handle.getHeight()))
-        );
+        if(isVertical()) {
+            bubble.setY(Utils.getValueInRange(
+                    0,
+                    getHeight() - bubble.getHeight(),
+                    relativePos * (getHeight() - handle.getHeight()) + bubbleOffset)
+            );
+            handle.setY(Utils.getValueInRange(
+                    0,
+                    getHeight() - handle.getHeight(),
+                    relativePos * (getHeight() - handle.getHeight()))
+            );
+        } else {
+            bubble.setX(Utils.getValueInRange(
+                    0,
+                    getWidth() - bubble.getWidth(),
+                    relativePos * (getWidth() - handle.getWidth()) + bubbleOffset)
+            );
+            handle.setX(Utils.getValueInRange(
+                    0,
+                    getWidth() - handle.getWidth(),
+                    relativePos * (getWidth() - handle.getWidth()))
+            );
+        }
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
