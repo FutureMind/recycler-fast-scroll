@@ -180,10 +180,10 @@ public class FastScroller extends LinearLayout {
                 float recyclerViewOversize; //how much is recyclerView bigger than fastScroller
                 int recyclerViewAbsoluteScroll;
                 if(isVertical()) {
-                    recyclerViewOversize = firstVisibleView.getHeight() * rv.getAdapter().getItemCount() - getHeight();
-                    recyclerViewAbsoluteScroll = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getHeight() - firstVisibleView.getTop();
+                    recyclerViewOversize = firstVisibleView.getHeight() * recyclerView.getAdapter().getItemCount()/3 - getHeight();
+                    recyclerViewAbsoluteScroll = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getHeight()/3 - firstVisibleView.getTop();
                 } else {
-                    recyclerViewOversize = firstVisibleView.getWidth() * rv.getAdapter().getItemCount() - getWidth();
+                    recyclerViewOversize = firstVisibleView.getWidth() * recyclerView.getAdapter().getItemCount() - getWidth();
                     recyclerViewAbsoluteScroll = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getWidth() - firstVisibleView.getLeft();
                 }
                 setHandlePosition(recyclerViewAbsoluteScroll / recyclerViewOversize);
