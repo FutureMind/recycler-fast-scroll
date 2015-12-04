@@ -38,10 +38,10 @@ public class FastScroller extends LinearLayout {
 
     @Override //TODO should probably use some custom orientation instead of linear layout one
     public void setOrientation(int orientation) {
-        scrollerOrientation = getOrientation();
+        scrollerOrientation = orientation;
         //switching orientation, because orientation in linear layout
         //is something different than orientation of fast scroller
-        super.setOrientation(getOrientation() == HORIZONTAL ? VERTICAL : HORIZONTAL);
+        super.setOrientation(orientation == HORIZONTAL ? VERTICAL : HORIZONTAL);
     }
 
     /**
