@@ -1,6 +1,8 @@
 package com.futuremind.recyclerviewfastscroll;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -28,12 +30,15 @@ public class FastScroller extends LinearLayout {
 
     private SectionTitleProvider titleProvider;
 
+    public FastScroller(Context context) {
+        super(context, null);
+    }
 
     public FastScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        inflater.inflate(isVertical() ? R.layout.fastscroller_vertical : R.layout.fastscroller_horizontal, this);
+        inflater.inflate(R.layout.fastscroller, this);
     }
 
     @Override //TODO should probably use some custom orientation instead of linear layout one
@@ -74,7 +79,23 @@ public class FastScroller extends LinearLayout {
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
         handle = (ImageView) findViewById(R.id.fastscroller_handle);
         bubbleOffset = (int) (isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
+        initHandleBackground();
         initHandleMovement();
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initHandleBackground() {
+        Resources resources = getResources();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            handle.setImageDrawable(resources.getDrawable(
+                    isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal,
+                    getContext().getApplicationContext().getTheme()
+            ));
+        } else {
+            handle.setImageDrawable(resources.getDrawable(
+                    isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal
+            ));
+        }
     }
 
     private void initHandleMovement() {
@@ -121,9 +142,9 @@ public class FastScroller extends LinearLayout {
                 recyclerView.getAdapter()==null ||
                 recyclerView.getAdapter().getItemCount()==0 ||
                 recyclerView.getChildAt(0)==null ||
-                isRecyclerViewScrollable() //TODO make it dependent on the orientation
+                isRecyclerViewScrollable()
                 ){
-            setVisibility(INVISIBLE);
+            setVisibility(VISIBLE);
         } else {
             setVisibility(VISIBLE);
         }
@@ -133,7 +154,7 @@ public class FastScroller extends LinearLayout {
         if(isVertical()) {
             return recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount() <= getHeight();
         } else {
-            return recyclerView.getChildAt(0).getWidth() * recyclerView.getAdapter().getItemCount()<=getWidth();
+            return recyclerView.getChildAt(0).getWidth() * recyclerView.getAdapter().getItemCount() <= getWidth();
         }
     }
 
