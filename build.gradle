@@ -27,5 +27,5 @@ ext.compileSdkVersion=23
 ext.buildToolsVersion="23.0.1"
 ext.minSdkVersion="11"
 ext.targetSdkVersion="23"
-ext.versionName="0.1.2"
+ext.versionName="0.1.3"
 ext.versionCode=1
