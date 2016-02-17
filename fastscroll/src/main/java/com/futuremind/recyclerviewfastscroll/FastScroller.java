@@ -196,7 +196,7 @@ public class FastScroller extends LinearLayout {
     private class ScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
-            if(handle!=null && !manuallyChangingPosition) {
+            if(handle!=null && !manuallyChangingPosition && recyclerView.getChildCount() > 0) {
                 View firstVisibleView = recyclerView.getChildAt(0);
                 float recyclerViewOversize; //how much is recyclerView bigger than fastScroller
                 int recyclerViewAbsoluteScroll;
