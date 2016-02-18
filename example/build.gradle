@@ -4,6 +4,22 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
 
+    signingConfigs {
+
+        def pathToProperties = "keyz/signing.properties"
+        if(!(file(pathToProperties)).exists()) {throw new GradleException("You have to specify a valid signing properties file.")}
+        Properties props = new Properties()
+        props.load(new FileInputStream(file(pathToProperties)))
+
+        release {
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+            storePassword props['storePassword']
+            storeFile file('keyz/keystore.jks')
+        }
+
+    }
+
     defaultConfig {
         applicationId "com.futuremind.recyclerviewfastscroll.example"
         minSdkVersion rootProject.minSdkVersion
@@ -14,6 +30,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
