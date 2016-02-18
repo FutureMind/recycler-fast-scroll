@@ -58,7 +58,7 @@ You can use this library with horizontal LayoutManager. To do it use android:ori
 
 Download via Gradle:
 ```groovy
-compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.3'
+compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.4'
 ```
 
 ## License
