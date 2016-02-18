@@ -3,6 +3,8 @@ Provides fast scroll and section indexer for recycler view. Uses a different mec
 
 This library is still in early development stage. PRs are welcome.
 
+![alt tag](http://i.imgur.com/EQsZ01x.gif)
+
 ## Usage
 --------
 In your layout file:
