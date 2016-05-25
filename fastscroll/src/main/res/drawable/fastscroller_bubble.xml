@@ -8,7 +8,7 @@
         android:bottomLeftRadius="@dimen/fastscroller_handle_corner"
         android:bottomRightRadius="0dp" />
 
-    <solid android:color="@android:color/white" />
+    <solid android:color="?attr/fastscrollBubbleColor" />
 
     <size
         android:height="@dimen/fastscroller_handle_size"

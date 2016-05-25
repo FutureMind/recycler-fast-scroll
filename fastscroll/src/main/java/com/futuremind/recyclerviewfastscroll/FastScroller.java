@@ -89,7 +89,7 @@ public class FastScroller extends LinearLayout {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             handle.setImageDrawable(resources.getDrawable(
                     isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal,
-                    getContext().getApplicationContext().getTheme()
+                    getContext().getTheme()
             ));
         } else {
             handle.setImageDrawable(resources.getDrawable(

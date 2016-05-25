@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/fastscrollBubbleTextStyle"
     android:id="@+id/fastscroller_bubble"
     android:layout_width="64dp"
     android:layout_height="64dp"

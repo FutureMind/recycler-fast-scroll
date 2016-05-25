@@ -2,7 +2,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="fastscrollBubbleTextStyle">@null</item>
+        <item name="fastscrollBubbleColor">@android:color/white</item>
+        <item name="fastscrollScrollerColor">@android:color/darker_gray</item>
     </style>
 
 </resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="fastscrollBubbleTextStyle" format="reference" />
+    <attr name="fastscrollBubbleColor" format="color" />
+    <attr name="fastscrollScrollerColor" format="color" />
+</resources>
