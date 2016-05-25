@@ -6,10 +6,6 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
 
-    lintOptions {
-        abortOnError false
-    }
-
     resourcePrefix "fastscroll__"
 
     defaultConfig {
@@ -113,7 +109,7 @@ artifacts {
 }
 
 // Bintray
-/*Properties properties = new Properties()
+Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 bintray {
@@ -139,7 +135,7 @@ bintray {
             }
         }
     }
-}*/
+}
 
 
 dependencies {
