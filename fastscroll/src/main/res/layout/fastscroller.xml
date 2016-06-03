@@ -6,7 +6,6 @@
         android:id="@+id/fastscroller_bubble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/fastscroller_bubble"
         android:elevation="4dp"
         android:visibility="invisible"
         android:layout_marginEnd="-8dp"

@@ -2,7 +2,12 @@ package com.futuremind.recyclerviewfastscroll;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,11 +15,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by mklimczak on 28/07/15.
  */
 public class FastScroller extends LinearLayout {
+    private final int handleColor;
+    private final int bubbleColor;
+    private final int textAppearance;
 
     private FastScrollBubble bubble;
     private ImageView handle;
@@ -31,7 +40,7 @@ public class FastScroller extends LinearLayout {
     private SectionTitleProvider titleProvider;
 
     public FastScroller(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public FastScroller(Context context, AttributeSet attrs) {
@@ -39,6 +48,16 @@ public class FastScroller extends LinearLayout {
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.fastscroller, this);
+
+        TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.FastScroller, R.attr.fastScrollerTheme, 0);
+        try {
+            bubbleColor = style.getColor(R.styleable.FastScroller_bubbleColor, ContextCompat.getColor(context, android.R.color.white));
+            handleColor = style.getColor(R.styleable.FastScroller_handleColor, ContextCompat.getColor(context, android.R.color.darker_gray));
+            textAppearance = style.getResourceId(R.styleable.FastScroller_textAppearance, android.R.style.TextAppearance);
+        }
+        finally {
+            style.recycle();
+        }
     }
 
     @Override //TODO should probably use some custom orientation instead of linear layout one
@@ -78,24 +97,32 @@ public class FastScroller extends LinearLayout {
         super.onLayout(changed, l, t, r, b);
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
         handle = (ImageView) findViewById(R.id.fastscroller_handle);
+        TextView defaultBubble = (TextView) bubble.getChildAt(0);
+
         bubbleOffset = (int) (isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
         initHandleBackground();
         initHandleMovement();
+
+        setBackgroundTint(defaultBubble, bubbleColor);
+        setImageTint(handle, handleColor);
+        TextViewCompat.setTextAppearance(defaultBubble, textAppearance);
     }
 
-    @SuppressWarnings("deprecation")
+    private void setBackgroundTint(View view, int color) {
+        final Drawable background = DrawableCompat.wrap(view.getBackground());
+        DrawableCompat.setTint(background, color);
+        view.setBackground(background);
+    }
+
+    private void setImageTint(ImageView view, int color) {
+        final Drawable image = DrawableCompat.wrap(view.getDrawable());
+        DrawableCompat.setTint(image, color);
+        view.setImageDrawable(image);
+    }
+
     private void initHandleBackground() {
-        Resources resources = getResources();
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            handle.setImageDrawable(resources.getDrawable(
-                    isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal,
-                    getContext().getTheme()
-            ));
-        } else {
-            handle.setImageDrawable(resources.getDrawable(
-                    isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal
-            ));
-        }
+        handle.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal));
     }
 
     private void initHandleMovement() {

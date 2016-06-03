@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="fastscrollBubbleTextStyle" format="reference" />
-    <attr name="fastscrollBubbleColor" format="color" />
-    <attr name="fastscrollScrollerColor" format="color" />
+	<attr name="fastScrollerTheme" format="reference" />
+    <declare-styleable name="FastScroller">
+	    <attr name="bubbleColor" format="color" />
+	    <attr name="handleColor" format="color" />
+	    <attr name="textAppearance" format="reference" />
+	</declare-styleable>
 </resources>

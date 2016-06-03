@@ -11,7 +11,7 @@
     <item android:top="@dimen/fastscroller_track_offset" android:bottom="@dimen/fastscroller_track_offset">
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/fastscroller_track_corner" />
-            <solid android:color="?attr/fastscrollScrollerColor" />
+            <solid android:color="@android:color/white" />
             <size
                 android:height="@dimen/fastscroller_track_width"
                 android:width="@dimen/fastscroller_track_height" />

@@ -9,12 +9,12 @@
         </shape>
     </item>
     <item android:left="@dimen/fastscroller_track_offset" android:right="@dimen/fastscroller_track_offset">
-    <shape android:shape="rectangle">
-        <corners android:radius="@dimen/fastscroller_track_corner" />
-        <solid android:color="?attr/fastscrollScrollerColor" />
-        <size
-            android:height="@dimen/fastscroller_track_height"
-            android:width="@dimen/fastscroller_track_width" />
-    </shape>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/fastscroller_track_corner" />
+            <solid android:color="@android:color/white" />
+            <size
+                android:height="@dimen/fastscroller_track_height"
+                android:width="@dimen/fastscroller_track_width" />
+        </shape>
     </item>
 </layer-list>
