@@ -197,17 +197,22 @@ public class FastScroller extends LinearLayout {
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
             if(handle!=null && !manuallyChangingPosition && recyclerView.getChildCount() > 0) {
-                View firstVisibleView = recyclerView.getChildAt(0);
-                float recyclerViewOversize; //how much is recyclerView bigger than fastScroller
-                int recyclerViewAbsoluteScroll;
+                float relativePos;
                 if(isVertical()) {
-                    recyclerViewOversize = firstVisibleView.getHeight() * rv.getAdapter().getItemCount() - getHeight();
-                    recyclerViewAbsoluteScroll = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getHeight() - firstVisibleView.getTop();
+                    int offset = recyclerView.computeVerticalScrollOffset();
+                    int extent = recyclerView.computeVerticalScrollExtent();
+                    int range = recyclerView.computeVerticalScrollRange();
+        
+                    relativePos = offset / (float)(range - extent);
                 } else {
-                    recyclerViewOversize = firstVisibleView.getWidth() * rv.getAdapter().getItemCount() - getWidth();
-                    recyclerViewAbsoluteScroll = recyclerView.getChildLayoutPosition(firstVisibleView) * firstVisibleView.getWidth() - firstVisibleView.getLeft();
+                    int offset = recyclerView.computeHorizontalScrollOffset();
+                    int extent = recyclerView.computeHorizontalScrollExtent();
+                    int range = recyclerView.computeHorizontalScrollRange();
+        
+                    relativePos = offset / (float)(range - extent);
                 }
-                setHandlePosition(recyclerViewAbsoluteScroll / recyclerViewOversize);
+                //setHandlePosition(recyclerViewAbsoluteScroll / recyclerViewOversize);
+                setHandlePosition(relativePos);
             }
         }
     }
