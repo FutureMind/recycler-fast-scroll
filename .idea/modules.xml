@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RecyclerViewFastScroll.iml" filepath="$PROJECT_DIR$/RecyclerViewFastScroll.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
       <module fileurl="file://$PROJECT_DIR$/fastscroll/fastscroll.iml" filepath="$PROJECT_DIR$/fastscroll/fastscroll.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recycler-fast-scroll.iml" filepath="$PROJECT_DIR$/recycler-fast-scroll.iml" />
     </modules>
   </component>
 </project>

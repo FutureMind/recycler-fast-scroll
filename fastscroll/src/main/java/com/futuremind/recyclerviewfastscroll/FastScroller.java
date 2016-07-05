@@ -1,7 +1,6 @@
 package com.futuremind.recyclerviewfastscroll;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -111,7 +110,11 @@ public class FastScroller extends LinearLayout {
     private void setBackgroundTint(View view, int color) {
         final Drawable background = DrawableCompat.wrap(view.getBackground());
         DrawableCompat.setTint(background, color);
-        view.setBackground(background);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(background);
+        } else {
+            view.setBackgroundDrawable(background);
+        }
     }
 
     private void setImageTint(ImageView view, int color) {
