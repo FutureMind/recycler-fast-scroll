@@ -6,7 +6,7 @@
     </style>
 
     <style name="MyScrollerStyle">
-        <item name="textAppearance">@android:style/TextAppearance.Small.Inverse</item>
+        <item name="textAppearance">@android:style/TextAppearance.Small</item>
         <item name="bubbleColor">@android:color/white</item>
         <item name="handleColor">@android:color/darker_gray</item>
     </style>
