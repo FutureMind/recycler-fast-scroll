@@ -3,10 +3,10 @@ package com.futuremind.recyclerviewfastscroll.example.fragments;
 import com.futuremind.recyclerviewfastscroll.example.R;
 
 
-public class DefaultFragment extends ExampleFragment {
+public class StyledFragment extends ExampleFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_default;
+        return R.layout.fragment_styled;
     }
 }
