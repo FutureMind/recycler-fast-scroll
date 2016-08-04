@@ -16,13 +16,15 @@ import com.futuremind.recyclerviewfastscroll.example.adapters.CountriesAdapter;
 
 public abstract class ExampleFragment extends Fragment {
 
+    private FastScroller fastScroller;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = LayoutInflater.from(getActivity()).inflate(getLayoutId(), container, false);
 
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
-        FastScroller fastScroller = (FastScroller) layout.findViewById(R.id.fastscroll);
+        fastScroller = (FastScroller) layout.findViewById(R.id.fastscroll);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -37,5 +39,9 @@ public abstract class ExampleFragment extends Fragment {
     }
 
     public abstract int getLayoutId();
+
+    public FastScroller getFastScroller(){
+        return fastScroller;
+    }
 
 }

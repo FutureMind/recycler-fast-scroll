@@ -20,9 +20,9 @@ import android.widget.TextView;
  * Created by mklimczak on 28/07/15.
  */
 public class FastScroller extends LinearLayout {
-    private final int handleColor;
-    private final int bubbleColor;
-    private final int textAppearance;
+    private int handleColor;
+    private int bubbleColor;
+    private int bubbleTextAppearance;
 
     private FastScrollBubble bubble;
     private ImageView handle;
@@ -52,7 +52,7 @@ public class FastScroller extends LinearLayout {
         try {
             bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, ContextCompat.getColor(context, android.R.color.white));
             handleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__handleColor, ContextCompat.getColor(context, android.R.color.darker_gray));
-            textAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, android.R.style.TextAppearance);
+            bubbleTextAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, android.R.style.TextAppearance);
         }
         finally {
             style.recycle();
@@ -91,6 +91,21 @@ public class FastScroller extends LinearLayout {
         });
     }
 
+    public void setBubbleColor(int color) {
+        bubbleColor = color;
+        invalidate();
+    }
+
+    public void setHandleColor(int color) {
+        handleColor = color;
+        invalidate();
+    }
+
+    public void setBubbleTextAppearance(int resId){
+        bubbleTextAppearance = resId;
+        invalidate();
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -104,7 +119,7 @@ public class FastScroller extends LinearLayout {
 
         setBackgroundTint(defaultBubble, bubbleColor);
         setImageTint(handle, handleColor);
-        TextViewCompat.setTextAppearance(defaultBubble, textAppearance);
+        TextViewCompat.setTextAppearance(defaultBubble, bubbleTextAppearance);
     }
 
     private void setBackgroundTint(View view, int color) {
