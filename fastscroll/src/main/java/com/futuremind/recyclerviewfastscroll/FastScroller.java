@@ -59,14 +59,6 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    @Override //TODO should probably use some custom orientation instead of linear layout one
-    public void setOrientation(int orientation) {
-        scrollerOrientation = orientation;
-        //switching orientation, because orientation in linear layout
-        //is something different than orientation of fast scroller
-        super.setOrientation(orientation == HORIZONTAL ? VERTICAL : HORIZONTAL);
-    }
-
     /**
      * Attach the FastScroller to RecyclerView. Should be used after the Adapter is set
      * to the RecyclerView. If the adapter implements SectionTitleProvider, the FastScroller
@@ -91,18 +83,45 @@ public class FastScroller extends LinearLayout {
         });
     }
 
+    /**
+     * Set the orientation of the {@link FastScroller}. The orientation of the {@link FastScroller}
+     * should generally match the orientation of connected  {@link RecyclerView} for good UX but it's not enforced.
+     * Note: This method is overridden from {@link LinearLayout#setOrientation(int)} but for {@link FastScroller}
+     * it has a totally different meaning.
+     * @param orientation of the {@link FastScroller}. {@link #VERTICAL} or {@link #HORIZONTAL}
+     */
+    @Override
+    public void setOrientation(int orientation) {
+        scrollerOrientation = orientation;
+        //switching orientation, because orientation in linear layout
+        //is something different than orientation of fast scroller
+        super.setOrientation(orientation == HORIZONTAL ? VERTICAL : HORIZONTAL);
+    }
+
+    /**
+     * Set the background color of the bubble.
+     * @param color Color in hex notation with alpha channel, e.g. 0xFFFFFFFF
+     */
     public void setBubbleColor(int color) {
         bubbleColor = color;
         invalidate();
     }
 
+    /**
+     * Set the background color of the handle.
+     * @param color Color in hex notation with alpha channel, e.g. 0xFFFFFFFF
+     */
     public void setHandleColor(int color) {
         handleColor = color;
         invalidate();
     }
 
-    public void setBubbleTextAppearance(int resId){
-        bubbleTextAppearance = resId;
+    /**
+     * Sets the text appearance of the bubble.
+     * @param textAppearanceResourceId The id of the resource to be used as text appearance of the bubble.
+     */
+    public void setBubbleTextAppearance(int textAppearanceResourceId){
+        bubbleTextAppearance = textAppearanceResourceId;
         invalidate();
     }
 
