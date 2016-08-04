@@ -1,4 +1,4 @@
-package com.futuremind.recyclerviewfastscroll.example;
+package com.futuremind.recyclerviewfastscroll.example.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
+import com.futuremind.recyclerviewfastscroll.example.R;
 
 import java.util.Arrays;
 import java.util.List;

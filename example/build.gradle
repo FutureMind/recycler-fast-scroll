@@ -7,7 +7,9 @@ android {
     signingConfigs {
 
         def pathToProperties = "keyz/signing.properties"
-        if(!(file(pathToProperties)).exists()) {throw new GradleException("You have to specify a valid signing properties file.")}
+        if (!(file(pathToProperties)).exists()) {
+            throw new GradleException("You have to specify a valid signing properties file.")
+        }
         Properties props = new Properties()
         props.load(new FileInputStream(file(pathToProperties)))
 
@@ -38,7 +40,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':fastscroll')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile project(':fastscroll')
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
 }

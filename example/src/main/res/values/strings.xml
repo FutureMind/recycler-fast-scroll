@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">RecyclerViewFastScroll</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="fragment_title_default">Default</string>
 </resources>
