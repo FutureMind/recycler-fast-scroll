@@ -20,19 +20,19 @@ import android.widget.TextView;
  * Created by mklimczak on 28/07/15.
  */
 public class FastScroller extends LinearLayout {
-    private int handleColor;
-    private int bubbleColor;
-    private int bubbleTextAppearance;
+
+    private final RecyclerScrollListener scrollListener = new RecyclerScrollListener(this);
+    private RecyclerView recyclerView;
 
     private FastScrollBubble bubble;
     private ImageView handle;
+
     private int bubbleOffset;
 
+    private int handleColor;
+    private int bubbleColor;
+    private int bubbleTextAppearance;
     private int scrollerOrientation;
-
-    private RecyclerView recyclerView;
-
-    private final ScrollListener scrollListener = new ScrollListener();
 
     private boolean manuallyChangingPosition;
 
@@ -47,7 +47,6 @@ public class FastScroller extends LinearLayout {
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.fastscroll__scroller, this);
-
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
             bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, ContextCompat.getColor(context, android.R.color.white));
@@ -60,10 +59,10 @@ public class FastScroller extends LinearLayout {
     }
 
     /**
-     * Attach the FastScroller to RecyclerView. Should be used after the Adapter is set
-     * to the RecyclerView. If the adapter implements SectionTitleProvider, the FastScroller
+     * Attach the {@link FastScroller} to {@link RecyclerView}. Should be used after the adapter is set
+     * to the {@link RecyclerView}. If the adapter implements SectionTitleProvider, the FastScroller
      * will show a bubble with title.
-     * @param recyclerView A RecyclerView to attach the FastScroller to
+     * @param recyclerView A {@link RecyclerView} to attach the {@link FastScroller} to.
      */
     public void setRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
@@ -234,7 +233,7 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    private void setHandlePosition(float relativePos) {
+    void setHandlePosition(float relativePos) {
         if(isVertical()) {
             bubble.setY(Utils.getValueInRange(
                     0,
@@ -260,29 +259,11 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    private class ScrollListener extends RecyclerView.OnScrollListener {
-        @Override
-        public void onScrolled(RecyclerView rv, int dx, int dy) {
-            if(handle!=null && !manuallyChangingPosition && rv.getChildCount() > 0) {
-                float relativePos;
-                if(isVertical()) {
-                    int offset = rv.computeVerticalScrollOffset();
-                    int extent = rv.computeVerticalScrollExtent();
-                    int range = rv.computeVerticalScrollRange();
-                    relativePos = offset / (float)(range - extent);
-                } else {
-                    int offset = rv.computeHorizontalScrollOffset();
-                    int extent = rv.computeHorizontalScrollExtent();
-                    int range = rv.computeHorizontalScrollRange();
-                    relativePos = offset / (float)(range - extent);
-                }
-                setHandlePosition(relativePos);
-            }
-        }
-    }
-
-    private boolean isVertical(){
+    boolean isVertical(){
         return scrollerOrientation == VERTICAL;
     }
 
+    boolean shouldUpdateHandlePosition() {
+        return handle!=null && !manuallyChangingPosition && recyclerView.getChildCount() > 0;
+    }
 }
