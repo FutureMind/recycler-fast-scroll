@@ -55,12 +55,42 @@ You can use this library with horizontal LayoutManager. To do it use android:ori
 
 ```
 
+## Styling
+--------
+
+Styling was introduced in version 0.1.5 with a limited set of styleable attributes. More are on their way.
+
+You can style the attributes in the xml layout:
+
+```    <com.futuremind.recyclerviewfastscroll.FastScroller
+           android:id="@+id/fastscroll"
+           android:orientation="vertical"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:layout_alignParentEnd="true"
+           android:layout_alignParentRight="true"
+           app:fastscroll__handleColor="#8f93d1"
+           app:fastscroll__bubbleColor="#5e64ce"
+           app:fastscroll__bubbleTextAppearance="@style/StyledScrollerTextAppearance"
+           />
+```
+
+Or directly in the code:
+
+```
+         fastScroller.setBubbleColor(0xffff0000);
+         fastScroller.setHandleColor(0xffff0000);
+         fastScroller.setBubbleTextAppearance(R.style.StyledScrollerTextAppearance);
+```
+
+See the example code for more info.
+
 ## Download
 --------
 
 Download via Gradle:
 ```groovy
-compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.4'
+compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.5'
 ```
 
 ## License
