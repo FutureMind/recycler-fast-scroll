@@ -46,13 +46,13 @@ public class FastScroller extends LinearLayout {
         super(context, attrs);
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        inflater.inflate(R.layout.fastscroller, this);
+        inflater.inflate(R.layout.fastscroll__scroller, this);
 
-        TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.FastScroller, R.attr.fastScrollerTheme, 0);
+        TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
-            bubbleColor = style.getColor(R.styleable.FastScroller_bubbleColor, ContextCompat.getColor(context, android.R.color.white));
-            handleColor = style.getColor(R.styleable.FastScroller_handleColor, ContextCompat.getColor(context, android.R.color.darker_gray));
-            textAppearance = style.getResourceId(R.styleable.FastScroller_textAppearance, android.R.style.TextAppearance);
+            bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, ContextCompat.getColor(context, android.R.color.white));
+            handleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__handleColor, ContextCompat.getColor(context, android.R.color.darker_gray));
+            textAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, android.R.style.TextAppearance);
         }
         finally {
             style.recycle();
@@ -125,7 +125,7 @@ public class FastScroller extends LinearLayout {
 
     private void initHandleBackground() {
         handle.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                isVertical() ? R.drawable.fastscroller_handle_vertical : R.drawable.fastscroller_handle_horizontal));
+                isVertical() ? R.drawable.fastscroll__handle_vertical : R.drawable.fastscroll__handle_horizontal));
     }
 
     private void initHandleMovement() {

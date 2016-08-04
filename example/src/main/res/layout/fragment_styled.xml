@@ -16,8 +16,9 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:handleColor="#8f93d1"
-        app:bubbleColor="#5e64ce"
+        app:fastscroll__handleColor="#8f93d1"
+        app:fastscroll__bubbleColor="#5e64ce"
+        app:fastscroll__bubbleTextAppearance="@style/StyledScrollerTextAppearance"
         />
 
 </RelativeLayout>

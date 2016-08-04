@@ -2,13 +2,18 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="fastScrollerTheme">@style/MyScrollerStyle</item>
+        <item name="fastscroll__style">@style/MyScrollerStyle</item>
     </style>
 
     <style name="MyScrollerStyle">
-        <item name="textAppearance">@android:style/TextAppearance.Small</item>
-        <item name="bubbleColor">@android:color/white</item>
-        <item name="handleColor">@android:color/darker_gray</item>
+        <item name="fastscroll__bubbleTextAppearance">@android:style/TextAppearance.Small</item>
+        <item name="fastscroll__bubbleColor">@android:color/white</item>
+        <item name="fastscroll__handleColor">@android:color/darker_gray</item>
+    </style>
+
+    <style name="StyledScrollerTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

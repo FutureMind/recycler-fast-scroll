@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <size
+                android:height="@dimen/fastscroll__track_height"
+                android:width="@dimen/fastscroll__track_clickable_width" />
+        </shape>
+    </item>
+    <item android:left="@dimen/fastscroll__track_offset" android:right="@dimen/fastscroll__track_offset">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/fastscroll__track_corner" />
+            <solid android:color="@android:color/white" />
+            <size
+                android:height="@dimen/fastscroll__track_height"
+                android:width="@dimen/fastscroll__track_width" />
+        </shape>
+    </item>
+</layer-list>

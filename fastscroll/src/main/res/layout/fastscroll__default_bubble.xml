@@ -5,6 +5,6 @@
     android:layout_height="64dp"
     android:gravity="center"
     android:textSize="24sp"
-    android:background="@drawable/fastscroller_bubble"
+    android:background="@drawable/fastscroll__bubble"
     tools:text="A"
     tools:visibility="visible"/>

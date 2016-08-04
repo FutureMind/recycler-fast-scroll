@@ -44,7 +44,7 @@ public class FastScrollBubble extends FrameLayout {
     }
 
     private void init() {
-        textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.default_bubble, null);
+        textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.fastscroll__default_bubble, null);
         addView(textView);
     }
 
