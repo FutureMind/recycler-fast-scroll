@@ -18,18 +18,24 @@ import java.util.List;
  */
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesHolder> implements SectionTitleProvider {
 
-    List<String> countries;
-    LayoutInflater inflater;
+    private boolean isHorizontal = false;
+    private List<String> countries;
+    private LayoutInflater inflater;
 
     public CountriesAdapter(Context cxt) {
         countries = Arrays.asList(cxt.getResources().getStringArray(R.array.countries_array));
         inflater = LayoutInflater.from(cxt);
     }
 
+    public CountriesAdapter(Context cxt, boolean isHorizontal) {
+        this(cxt);
+        this.isHorizontal = isHorizontal;
+    }
+
     @Override
     public CountriesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CountriesHolder holder;
-        View view = inflater.inflate(R.layout.item_country, parent, false);
+        View view = inflater.inflate(isHorizontal ? R.layout.item_country_horizontal : R.layout.item_country, parent, false);
         holder = new CountriesHolder(view);
         return holder;
     }

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.futuremind.recyclerviewfastscroll.example.R;
 import com.futuremind.recyclerviewfastscroll.example.fragments.DefaultFragment;
+import com.futuremind.recyclerviewfastscroll.example.fragments.HorizontalFragment;
 import com.futuremind.recyclerviewfastscroll.example.fragments.StyledFragment;
 
 /**
@@ -15,9 +16,8 @@ import com.futuremind.recyclerviewfastscroll.example.fragments.StyledFragment;
 public class ExampleFragmentsAdapter extends FragmentStatePagerAdapter {
 
     private final Context cxt;
-    public static final int NUM_PAGES = 2;
-    private int tabTitles[] = new int[] { R.string.fragment_title_default, R.string.fragment_title_styled };
-    private Fragment fragments[] = new Fragment[] { new DefaultFragment(), new StyledFragment() };
+    private int tabTitles[] = new int[] { R.string.fragment_title_default, R.string.fragment_title_styled, R.string.fragment_title_horizontal };
+    private Fragment fragments[] = new Fragment[] { new DefaultFragment(), new StyledFragment(), new HorizontalFragment() };
 
     public ExampleFragmentsAdapter(Context cxt, FragmentManager fm) {
         super(fm);
@@ -31,7 +31,7 @@ public class ExampleFragmentsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return NUM_PAGES;
+        return fragments.length;
     }
 
     @Override
