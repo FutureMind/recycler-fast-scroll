@@ -147,6 +147,9 @@ public class FastScroller extends LinearLayout {
         handle.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
+                requestDisallowInterceptTouchEvent(true);
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
 
                     if(titleProvider!=null) bubble.show();
@@ -187,7 +190,7 @@ public class FastScroller extends LinearLayout {
                 recyclerView.getAdapter()==null ||
                 recyclerView.getAdapter().getItemCount()==0 ||
                 recyclerView.getChildAt(0)==null ||
-                isRecyclerViewScrollable()
+                isRecyclerViewNotScrollable()
                 ){
             setVisibility(GONE);
         } else {
@@ -195,11 +198,11 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    private boolean isRecyclerViewScrollable() {
+    private boolean isRecyclerViewNotScrollable() {
         if(isVertical()) {
-            return recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount() <= getHeight();
+            return recyclerView.getChildAt(0).getHeight() * recyclerView.getAdapter().getItemCount() <= recyclerView.getHeight();
         } else {
-            return recyclerView.getChildAt(0).getWidth() * recyclerView.getAdapter().getItemCount() <= getWidth();
+            return recyclerView.getChildAt(0).getWidth() * recyclerView.getAdapter().getItemCount() <= recyclerView.getWidth();
         }
     }
 
@@ -241,22 +244,19 @@ public class FastScroller extends LinearLayout {
     private class ScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
-            if(handle!=null && !manuallyChangingPosition && recyclerView.getChildCount() > 0) {
+            if(handle!=null && !manuallyChangingPosition && rv.getChildCount() > 0) {
                 float relativePos;
                 if(isVertical()) {
-                    int offset = recyclerView.computeVerticalScrollOffset();
-                    int extent = recyclerView.computeVerticalScrollExtent();
-                    int range = recyclerView.computeVerticalScrollRange();
-        
+                    int offset = rv.computeVerticalScrollOffset();
+                    int extent = rv.computeVerticalScrollExtent();
+                    int range = rv.computeVerticalScrollRange();
                     relativePos = offset / (float)(range - extent);
                 } else {
-                    int offset = recyclerView.computeHorizontalScrollOffset();
-                    int extent = recyclerView.computeHorizontalScrollExtent();
-                    int range = recyclerView.computeHorizontalScrollRange();
-        
+                    int offset = rv.computeHorizontalScrollOffset();
+                    int extent = rv.computeHorizontalScrollExtent();
+                    int range = rv.computeHorizontalScrollRange();
                     relativePos = offset / (float)(range - extent);
                 }
-                //setHandlePosition(recyclerViewAbsoluteScroll / recyclerViewOversize);
                 setHandlePosition(relativePos);
             }
         }
