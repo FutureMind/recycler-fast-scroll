@@ -138,6 +138,8 @@ public class FastScroller extends LinearLayout {
         setBackgroundTint(defaultBubble, bubbleColor);
         setImageTint(handle, handleColor);
         TextViewCompat.setTextAppearance(defaultBubble, bubbleTextAppearance);
+
+        scrollListener.updateHandlePosition(recyclerView);
     }
 
     private void setBackgroundTint(View view, int color) {
