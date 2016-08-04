@@ -62,13 +62,10 @@ Styling was introduced in version 0.1.5 with a limited set of styleable attribut
 
 You can style the attributes in the xml layout:
 
-```    <com.futuremind.recyclerviewfastscroll.FastScroller
-           android:id="@+id/fastscroll"
-           android:orientation="vertical"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:layout_alignParentEnd="true"
-           android:layout_alignParentRight="true"
+```java
+    
+    <com.futuremind.recyclerviewfastscroll.FastScroller
+           ...
            app:fastscroll__handleColor="#8f93d1"
            app:fastscroll__bubbleColor="#5e64ce"
            app:fastscroll__bubbleTextAppearance="@style/StyledScrollerTextAppearance"
