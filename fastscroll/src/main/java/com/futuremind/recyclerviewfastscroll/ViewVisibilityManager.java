@@ -21,10 +21,9 @@ public class ViewVisibilityManager {
 
     private final int hideDelay;
     private final int animationDuration;
-    private final BubbleHider bubbleHider = new BubbleHider();
     private final View view;
 
-    private AnimatorSet bubbleHideAnimator = null;
+    private AnimatorSet bubbleHideAnimator;
 
     public ViewVisibilityManager(View view){
         this(view, DEFAULT_HIDE_DELAY, DEFAULT_ANIMATION_DURATION);
@@ -40,28 +39,26 @@ public class ViewVisibilityManager {
         if (bubbleHideAnimator != null) {
             bubbleHideAnimator.cancel();
         }
-        view.getHandler().removeCallbacks(bubbleHider);
         if (view.getVisibility() == View.INVISIBLE) {
             animateShow();
         }
     }
 
     public void hide(){
-        view.getHandler().postDelayed(bubbleHider, hideDelay);
+        animateHide();
     }
 
     private void animateShow() {
-
-        AnimatorSet animatorSet = new AnimatorSet();
+        AnimatorSet bubbleShowAnimator = new AnimatorSet();
         view.setPivotX(view.getWidth());
         view.setPivotY(view.getHeight());
         view.setVisibility(View.VISIBLE);
         Animator growerX = ObjectAnimator.ofFloat(view, SCALE_X, 0f, 1f).setDuration(animationDuration);
         Animator growerY = ObjectAnimator.ofFloat(view, SCALE_Y, 0f, 1f).setDuration(animationDuration);
         Animator alpha = ObjectAnimator.ofFloat(view, ALPHA, 0f, 1f).setDuration(animationDuration);
-        animatorSet.setInterpolator(new DecelerateInterpolator());
-        animatorSet.playTogether(growerX, growerY, alpha);
-        animatorSet.start();
+        bubbleShowAnimator.setInterpolator(new DecelerateInterpolator());
+        bubbleShowAnimator.playTogether(growerX, growerY, alpha);
+        bubbleShowAnimator.start();
     }
 
     private void animateHide() {
@@ -73,6 +70,7 @@ public class ViewVisibilityManager {
         Animator alpha = ObjectAnimator.ofFloat(view, ALPHA, 1f, 0f).setDuration(animationDuration);
         bubbleHideAnimator.setInterpolator(new AccelerateInterpolator());
         bubbleHideAnimator.playTogether(shrinkerX, shrinkerY, alpha);
+        bubbleHideAnimator.setStartDelay(hideDelay);
         bubbleHideAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -89,13 +87,6 @@ public class ViewVisibilityManager {
             }
         });
         bubbleHideAnimator.start();
-    }
-
-    private class BubbleHider implements Runnable {
-        @Override
-        public void run() {
-            animateHide();
-        }
     }
 
 }
