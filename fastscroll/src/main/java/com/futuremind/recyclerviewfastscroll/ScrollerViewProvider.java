@@ -8,24 +8,19 @@ import android.view.View;
  */
 public abstract class ScrollerViewProvider {
 
-    private final Context cxt;
-    private boolean isVertical;
+    private final FastScroller scroller;
 
-    public ScrollerViewProvider(Context cxt) {
-        this.cxt = cxt;
+    public ScrollerViewProvider(FastScroller scroller) {
+        this.scroller = scroller;
     }
 
-    protected Context getContext() {
-        return cxt;
+    protected Context getContext(){
+        return scroller.getContext();
     }
 
-    protected boolean isVertical() {
-        return isVertical;
+    protected FastScroller getScroller() {
+        return scroller;
     }
 
-    public void setIsVertical(boolean isVertical) {
-        this.isVertical = isVertical;
-    }
-
-    public abstract View getHandleView();
+    public abstract View provideHandleView();
 }

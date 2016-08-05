@@ -48,10 +48,9 @@ public class FastScroller extends LinearLayout {
     public FastScroller(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        viewProvider = new DefaultScrollerViewProvider(context);
-        viewProvider.setIsVertical(isVertical());
+        viewProvider = new DefaultScrollerViewProvider(this);
         bubble = (FastScrollBubble) LayoutInflater.from(context).inflate(R.layout.fastscroll__bubble, this, false);
-        handle = viewProvider.getHandleView();
+        handle = viewProvider.provideHandleView();
         addView(bubble);
         addView(handle);
 
