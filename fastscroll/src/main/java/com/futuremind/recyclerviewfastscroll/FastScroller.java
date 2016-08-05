@@ -46,8 +46,7 @@ public class FastScroller extends LinearLayout {
 
     public FastScroller(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        setViewProvider(new DefaultScrollerViewProvider(this), false);
+        setViewProvider(new DefaultScrollerViewProvider(), false);
         setClipChildren(false);
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
@@ -130,13 +129,18 @@ public class FastScroller extends LinearLayout {
     }
 
     private void setViewProvider(ScrollerViewProvider viewProvider, boolean requestLayout) {
+        removeAllViews();
         this.viewProvider = viewProvider;
+        viewProvider.setFastScroller(this);
         bubble = viewProvider.provideBubbleView(this);
         handle = viewProvider.provideHandleView(this);
         bubbleTextView = viewProvider.provideBubbleTextView();
         addView(bubble);
         addView(handle);
-        if(requestLayout) requestLayout();
+//        if(requestLayout){
+//
+//            requestLayout();
+//        }
     }
 
     @Override
@@ -158,6 +162,7 @@ public class FastScroller extends LinearLayout {
 
     private void setBackgroundTint(View view, int color) {
         final Drawable background = DrawableCompat.wrap(view.getBackground());
+        if(background==null) return;
         DrawableCompat.setTint(background, color);
         Utils.setBackground(view, background);
     }
@@ -249,7 +254,7 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    boolean isVertical(){
+    public boolean isVertical(){
         return scrollerOrientation == VERTICAL;
     }
 

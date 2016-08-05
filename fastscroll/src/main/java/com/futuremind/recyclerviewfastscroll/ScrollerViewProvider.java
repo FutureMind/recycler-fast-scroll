@@ -10,10 +10,10 @@ import android.widget.TextView;
  */
 public abstract class ScrollerViewProvider {
 
-    private final FastScroller scroller;
+    private FastScroller scroller;
     private ViewVisibilityManager bubbleVisibilityManager;
 
-    public ScrollerViewProvider(FastScroller scroller) {
+    void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
     }
 

@@ -13,12 +13,7 @@ import android.widget.TextView;
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
     private View bubble;
-    private TextView bubbleTextView;
     private View handle;
-
-    public DefaultScrollerViewProvider(FastScroller scroller) {
-        super(scroller);
-    }
 
     @Override
     public View provideHandleView(ViewGroup container) {
