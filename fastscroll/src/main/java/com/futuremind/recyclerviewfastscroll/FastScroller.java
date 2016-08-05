@@ -3,7 +3,7 @@ package com.futuremind.recyclerviewfastscroll;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.graphics.drawable.InsetDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -150,19 +149,17 @@ public class FastScroller extends LinearLayout {
         bubbleOffset = (int) (isVertical() ? ((float)handleHeight/2f)-bubble.getHeight() : ((float)handleWidth/2f)-bubble.getWidth());
     }
 
+    private void initHandleBackground() {
+        int verticalInset = isVertical() ? 0 : getResources().getDimensionPixelSize(R.dimen.fastscroll__handle_inset);
+        int horizontalInset = !isVertical() ? 0 : getResources().getDimensionPixelSize(R.dimen.fastscroll__handle_inset);
+        InsetDrawable handleBg = new InsetDrawable(ContextCompat.getDrawable(getContext(), R.drawable.fastscroll__handle), horizontalInset, verticalInset, horizontalInset, verticalInset);
+        Utils.setBackground(handle, handleBg);
+    }
+
     private void setBackgroundTint(View view, int color) {
         final Drawable background = DrawableCompat.wrap(view.getBackground());
         DrawableCompat.setTint(background, color);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(background);
-        } else {
-            view.setBackgroundDrawable(background);
-        }
-    }
-
-    private void initHandleBackground() {
-//        handle.setBackgroundColor(0xff000000);
-        handle.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.fastscroll__handle_vertical));
+        Utils.setBackground(view, background);
     }
 
     private void initHandleMovement() {
@@ -178,7 +175,7 @@ public class FastScroller extends LinearLayout {
                     manuallyChangingPosition = true;
 
                     float relativePos = getRelativeTouchPosition(event);
-                    setHandlePosition(relativePos);
+                    setScrollerPosition(relativePos);
                     setRecyclerViewPosition(relativePos);
 
                     return true;
@@ -237,7 +234,7 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    void setHandlePosition(float relativePos) {
+    void setScrollerPosition(float relativePos) {
         if(isVertical()) {
             bubble.setY(Utils.getValueInRange(
                     0,

@@ -34,6 +34,6 @@ public class RecyclerScrollListener extends RecyclerView.OnScrollListener {
             int range = rv.computeHorizontalScrollRange();
             relativePos = offset / (float)(range - extent);
         }
-        scroller.setHandlePosition(relativePos);
+        scroller.setScrollerPosition(relativePos);
     }
 }
