@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by Michal on 05/08/16.
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
     private FastScrollBubble bubble;
+    private TextView bubbleTextView;
     private View handle;
 
     public DefaultScrollerViewProvider(FastScroller scroller) {
@@ -38,7 +40,13 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
     @Override
     public FastScrollBubble provideBubbleView(ViewGroup container) {
         bubble = (FastScrollBubble) LayoutInflater.from(getContext()).inflate(R.layout.fastscroll__bubble, container, false);
+        bubbleTextView = (TextView) bubble.getChildAt(0);
         return bubble;
+    }
+
+    @Override
+    public TextView provideBubbleTextView() {
+        return bubbleTextView;
     }
 
     @Override
@@ -46,8 +54,4 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
         return (int) (getScroller().isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
     }
 
-    @Override
-    public void setText(String text) {
-        bubble.setText(text);
-    }
 }

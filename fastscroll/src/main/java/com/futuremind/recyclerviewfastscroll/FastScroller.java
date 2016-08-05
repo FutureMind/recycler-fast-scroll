@@ -23,6 +23,7 @@ public class FastScroller extends LinearLayout {
 
     private FastScrollBubble bubble;
     private View handle;
+    private TextView bubbleTextView;
 
     private int bubbleOffset;
 
@@ -47,12 +48,7 @@ public class FastScroller extends LinearLayout {
     public FastScroller(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        viewProvider = new DefaultScrollerViewProvider(this);
-        bubble = viewProvider.provideBubbleView(this);
-        handle = viewProvider.provideHandleView(this);
-        addView(bubble);
-        addView(handle);
-
+        setViewProvider(new DefaultScrollerViewProvider(this), false);
         setClipChildren(false);
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
@@ -62,6 +58,11 @@ public class FastScroller extends LinearLayout {
         } finally {
             style.recycle();
         }
+    }
+
+    //TODO not tested yet
+    public void setViewProvider(ScrollerViewProvider viewProvider) {
+        setViewProvider(viewProvider, true);
     }
 
     /**
@@ -130,18 +131,26 @@ public class FastScroller extends LinearLayout {
         invalidate();
     }
 
+    private void setViewProvider(ScrollerViewProvider viewProvider, boolean requestLayout) {
+        this.viewProvider = viewProvider;
+        bubble = viewProvider.provideBubbleView(this);
+        handle = viewProvider.provideHandleView(this);
+        bubbleTextView = viewProvider.provideBubbleTextView();
+        addView(bubble);
+        addView(handle);
+        if(requestLayout) requestLayout();
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
 
-        TextView defaultBubble = (TextView) bubble.getChildAt(0);
-
         initHandleMovement();
         bubbleOffset = viewProvider.getBubbleOffset();
 
-        setBackgroundTint(defaultBubble, bubbleColor);
+        setBackgroundTint(bubbleTextView, bubbleColor);
         setBackgroundTint(handle, handleColor);
-        TextViewCompat.setTextAppearance(defaultBubble, bubbleTextAppearance);
+        TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
 
         scrollListener.updateHandlePosition(recyclerView);
 
@@ -221,7 +230,7 @@ public class FastScroller extends LinearLayout {
             int itemCount = recyclerView.getAdapter().getItemCount();
             int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
             recyclerView.scrollToPosition(targetPos);
-            if(titleProvider!=null) viewProvider.setText(titleProvider.getSectionTitle(targetPos));
+            if(titleProvider!=null && bubbleTextView!=null) bubbleTextView.setText(titleProvider.getSectionTitle(targetPos));
         }
     }
 
