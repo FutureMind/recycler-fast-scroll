@@ -3,14 +3,14 @@
     android:shape="rectangle">
 
     <corners
-        android:topLeftRadius="@dimen/fastscroll__handle_corner"
-        android:topRightRadius="@dimen/fastscroll__handle_corner"
-        android:bottomLeftRadius="@dimen/fastscroll__handle_corner"
+        android:topLeftRadius="@dimen/fastscroll__bubble_corner"
+        android:topRightRadius="@dimen/fastscroll__bubble_corner"
+        android:bottomLeftRadius="@dimen/fastscroll__bubble_corner"
         android:bottomRightRadius="0dp" />
 
     <solid android:color="@android:color/white" />
 
     <size
-        android:height="@dimen/fastscroll__handle_size"
-        android:width="@dimen/fastscroll__handle_size" />
+        android:height="@dimen/fastscroll__bubble_size"
+        android:width="@dimen/fastscroll__bubble_size" />
 </shape>

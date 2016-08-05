@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="fastscroll__handle_corner">20dp</dimen>
-    <dimen name="fastscroll__handle_size">50dp</dimen>
-    <dimen name="fastscroll__track_corner">3dp</dimen>
-    <dimen name="fastscroll__track_height">30dp</dimen>
-    <dimen name="fastscroll__track_width">6dp</dimen>
-    <dimen name="fastscroll__track_offset">9dp</dimen>
-    <dimen name="fastscroll__track_clickable_width">24dp</dimen>
-    <dimen name="fastscroll__track_padding">2dp</dimen>
+    <dimen name="fastscroll__bubble_corner">20dp</dimen>
+    <dimen name="fastscroll__bubble_size">50dp</dimen>
+    <dimen name="fastscroll__handle_corner">3dp</dimen>
+    <dimen name="fastscroll__handle_height">30dp</dimen>
+    <dimen name="fastscroll__handle_width">6dp</dimen>
+    <dimen name="fastscroll__handle_offset">9dp</dimen>
+    <dimen name="fastscroll__handle_clickable_width">24dp</dimen>
+    <dimen name="fastscroll__handle_padding">2dp</dimen>
 </resources>

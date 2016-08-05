@@ -4,17 +4,17 @@
         <shape>
             <solid android:color="@android:color/transparent" />
             <size
-                android:height="@dimen/fastscroll__track_height"
-                android:width="@dimen/fastscroll__track_clickable_width" />
+                android:height="@dimen/fastscroll__handle_height"
+                android:width="@dimen/fastscroll__handle_clickable_width" />
         </shape>
     </item>
-    <item android:left="@dimen/fastscroll__track_offset" android:right="@dimen/fastscroll__track_offset">
+    <item android:left="@dimen/fastscroll__handle_offset" android:right="@dimen/fastscroll__handle_offset">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/fastscroll__track_corner" />
+            <corners android:radius="@dimen/fastscroll__handle_corner" />
             <solid android:color="@android:color/white" />
             <size
-                android:height="@dimen/fastscroll__track_height"
-                android:width="@dimen/fastscroll__track_width" />
+                android:height="@dimen/fastscroll__handle_height"
+                android:width="@dimen/fastscroll__handle_width" />
         </shape>
     </item>
 </layer-list>
