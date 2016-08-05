@@ -25,7 +25,7 @@ public class FastScroller extends LinearLayout {
     private RecyclerView recyclerView;
 
     private FastScrollBubble bubble;
-    private ImageView handle;
+    private View handle;
 
     private int bubbleOffset;
 
@@ -128,18 +128,26 @@ public class FastScroller extends LinearLayout {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
-        handle = (ImageView) findViewById(R.id.fastscroller_handle);
+        handle = findViewById(R.id.fastscroller_handle);
         TextView defaultBubble = (TextView) bubble.getChildAt(0);
 
-        bubbleOffset = (int) (isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
+        calculateSizes();
         initHandleBackground();
         initHandleMovement();
 
         setBackgroundTint(defaultBubble, bubbleColor);
-        setImageTint(handle, handleColor);
+        setBackgroundTint(handle, handleColor);
         TextViewCompat.setTextAppearance(defaultBubble, bubbleTextAppearance);
 
         scrollListener.updateHandlePosition(recyclerView);
+    }
+
+    private void calculateSizes() {
+        int handleWidth = getResources().getDimensionPixelSize(isVertical() ? R.dimen.fastscroll__handle_clickable_width : R.dimen.fastscroll__handle_height);
+        int handleHeight = getResources().getDimensionPixelSize(isVertical() ? R.dimen.fastscroll__handle_height : R.dimen.fastscroll__handle_clickable_width);
+        handle.getLayoutParams().width = handleWidth;
+        handle.getLayoutParams().height = handleHeight;
+        bubbleOffset = (int) (isVertical() ? ((float)handleHeight/2f)-bubble.getHeight() : ((float)handleWidth/2f)-bubble.getWidth());
     }
 
     private void setBackgroundTint(View view, int color) {
@@ -152,15 +160,9 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    private void setImageTint(ImageView view, int color) {
-        final Drawable image = DrawableCompat.wrap(view.getDrawable());
-        DrawableCompat.setTint(image, color);
-        view.setImageDrawable(image);
-    }
-
     private void initHandleBackground() {
-        handle.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                isVertical() ? R.drawable.fastscroll__handle_vertical : R.drawable.fastscroll__handle_horizontal));
+//        handle.setBackgroundColor(0xff000000);
+        handle.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.fastscroll__handle_vertical));
     }
 
     private void initHandleMovement() {

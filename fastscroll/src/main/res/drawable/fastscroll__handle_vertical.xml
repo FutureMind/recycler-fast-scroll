@@ -4,8 +4,8 @@
         <shape>
             <solid android:color="@android:color/transparent" />
             <size
-                android:height="@dimen/fastscroll__handle_height"
-                android:width="@dimen/fastscroll__handle_clickable_width" />
+                android:height="50dp"
+                android:width="50dp" />
         </shape>
     </item>
     <item android:left="@dimen/fastscroll__handle_offset" android:right="@dimen/fastscroll__handle_offset">
@@ -13,8 +13,8 @@
             <corners android:radius="@dimen/fastscroll__handle_corner" />
             <solid android:color="@android:color/white" />
             <size
-                android:height="@dimen/fastscroll__handle_height"
-                android:width="@dimen/fastscroll__handle_width" />
+                android:height="50dp"
+                android:width="50dp" />
         </shape>
     </item>
 </layer-list>
