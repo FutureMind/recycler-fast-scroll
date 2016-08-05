@@ -3,7 +3,6 @@ package com.futuremind.recyclerviewfastscroll;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.InsetDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
@@ -35,6 +34,7 @@ public class FastScroller extends LinearLayout {
 
     private boolean manuallyChangingPosition;
 
+    private ScrollerViewProvider viewProvider;
     private SectionTitleProvider titleProvider;
 
     public FastScroller(Context context) {
@@ -42,17 +42,26 @@ public class FastScroller extends LinearLayout {
     }
 
     public FastScroller(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public FastScroller(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+
+        viewProvider = new DefaultScrollerViewProvider(context);
+        viewProvider.setIsVertical(isVertical());
+        bubble = (FastScrollBubble) LayoutInflater.from(context).inflate(R.layout.fastscroll__bubble, this, false);
+        handle = viewProvider.getHandleView();
+        addView(bubble);
+        addView(handle);
+
         setClipChildren(false);
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        inflater.inflate(R.layout.fastscroll__scroller, this);
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
             bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, ContextCompat.getColor(context, android.R.color.white));
             handleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__handleColor, ContextCompat.getColor(context, android.R.color.darker_gray));
             bubbleTextAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, android.R.style.TextAppearance);
-        }
-        finally {
+        } finally {
             style.recycle();
         }
     }
@@ -126,12 +135,10 @@ public class FastScroller extends LinearLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        bubble = (FastScrollBubble) findViewById(R.id.fastscroller_bubble);
-        handle = findViewById(R.id.fastscroller_handle);
+
         TextView defaultBubble = (TextView) bubble.getChildAt(0);
 
         calculateSizes();
-        initHandleBackground();
         initHandleMovement();
 
         setBackgroundTint(defaultBubble, bubbleColor);
@@ -139,21 +146,11 @@ public class FastScroller extends LinearLayout {
         TextViewCompat.setTextAppearance(defaultBubble, bubbleTextAppearance);
 
         scrollListener.updateHandlePosition(recyclerView);
+
     }
 
     private void calculateSizes() {
-        int handleWidth = getResources().getDimensionPixelSize(isVertical() ? R.dimen.fastscroll__handle_clickable_width : R.dimen.fastscroll__handle_height);
-        int handleHeight = getResources().getDimensionPixelSize(isVertical() ? R.dimen.fastscroll__handle_height : R.dimen.fastscroll__handle_clickable_width);
-        handle.getLayoutParams().width = handleWidth;
-        handle.getLayoutParams().height = handleHeight;
-        bubbleOffset = (int) (isVertical() ? ((float)handleHeight/2f)-bubble.getHeight() : ((float)handleWidth/2f)-bubble.getWidth());
-    }
-
-    private void initHandleBackground() {
-        int verticalInset = isVertical() ? 0 : getResources().getDimensionPixelSize(R.dimen.fastscroll__handle_inset);
-        int horizontalInset = !isVertical() ? 0 : getResources().getDimensionPixelSize(R.dimen.fastscroll__handle_inset);
-        InsetDrawable handleBg = new InsetDrawable(ContextCompat.getDrawable(getContext(), R.drawable.fastscroll__handle), horizontalInset, verticalInset, horizontalInset, verticalInset);
-        Utils.setBackground(handle, handleBg);
+        bubbleOffset = (int) (isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
     }
 
     private void setBackgroundTint(View view, int color) {
