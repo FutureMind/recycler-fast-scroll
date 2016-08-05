@@ -19,17 +19,21 @@ public class ViewVisibilityManager {
     private static final String SCALE_Y = "scaleY";
     private static final String ALPHA = "alpha";
 
+    private final int hideDelay;
+    private final int animationDuration;
     private final BubbleHider bubbleHider = new BubbleHider();
     private final View view;
+
     private AnimatorSet bubbleHideAnimator = null;
 
     public ViewVisibilityManager(View view){
-        this.view = view;
+        this(view, DEFAULT_HIDE_DELAY, DEFAULT_ANIMATION_DURATION);
     }
 
-    //TODO
     public ViewVisibilityManager(View view, int hideDelay, int animationDuration){
-        this(view);
+        this.view = view;
+        this.hideDelay = hideDelay;
+        this.animationDuration = animationDuration;
     }
 
     public void show(){
@@ -43,7 +47,7 @@ public class ViewVisibilityManager {
     }
 
     public void hide(){
-        view.getHandler().postDelayed(bubbleHider, DEFAULT_HIDE_DELAY);
+        view.getHandler().postDelayed(bubbleHider, hideDelay);
     }
 
     private void animateShow() {
@@ -52,9 +56,9 @@ public class ViewVisibilityManager {
         view.setPivotX(view.getWidth());
         view.setPivotY(view.getHeight());
         view.setVisibility(View.VISIBLE);
-        Animator growerX = ObjectAnimator.ofFloat(this, SCALE_X, 0f, 1f).setDuration(DEFAULT_ANIMATION_DURATION);
-        Animator growerY = ObjectAnimator.ofFloat(this, SCALE_Y, 0f, 1f).setDuration(DEFAULT_ANIMATION_DURATION);
-        Animator alpha = ObjectAnimator.ofFloat(this, ALPHA, 0f, 1f).setDuration(DEFAULT_ANIMATION_DURATION);
+        Animator growerX = ObjectAnimator.ofFloat(view, SCALE_X, 0f, 1f).setDuration(animationDuration);
+        Animator growerY = ObjectAnimator.ofFloat(view, SCALE_Y, 0f, 1f).setDuration(animationDuration);
+        Animator alpha = ObjectAnimator.ofFloat(view, ALPHA, 0f, 1f).setDuration(animationDuration);
         animatorSet.setInterpolator(new DecelerateInterpolator());
         animatorSet.playTogether(growerX, growerY, alpha);
         animatorSet.start();
@@ -64,9 +68,9 @@ public class ViewVisibilityManager {
         bubbleHideAnimator = new AnimatorSet();
         view.setPivotX(view.getWidth());
         view.setPivotY(view.getHeight());
-        Animator shrinkerX = ObjectAnimator.ofFloat(this, SCALE_X, 1f, 0f).setDuration(DEFAULT_ANIMATION_DURATION);
-        Animator shrinkerY = ObjectAnimator.ofFloat(this, SCALE_Y, 1f, 0f).setDuration(DEFAULT_ANIMATION_DURATION);
-        Animator alpha = ObjectAnimator.ofFloat(this, ALPHA, 1f, 0f).setDuration(DEFAULT_ANIMATION_DURATION);
+        Animator shrinkerX = ObjectAnimator.ofFloat(view, SCALE_X, 1f, 0f).setDuration(animationDuration);
+        Animator shrinkerY = ObjectAnimator.ofFloat(view, SCALE_Y, 1f, 0f).setDuration(animationDuration);
+        Animator alpha = ObjectAnimator.ofFloat(view, ALPHA, 1f, 0f).setDuration(animationDuration);
         bubbleHideAnimator.setInterpolator(new AccelerateInterpolator());
         bubbleHideAnimator.playTogether(shrinkerX, shrinkerY, alpha);
         bubbleHideAnimator.addListener(new AnimatorListenerAdapter() {

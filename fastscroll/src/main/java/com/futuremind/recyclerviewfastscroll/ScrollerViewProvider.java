@@ -11,6 +11,7 @@ import android.widget.TextView;
 public abstract class ScrollerViewProvider {
 
     private final FastScroller scroller;
+    private ViewVisibilityManager bubbleVisibilityManager;
 
     public ScrollerViewProvider(FastScroller scroller) {
         this.scroller = scroller;
@@ -34,7 +35,7 @@ public abstract class ScrollerViewProvider {
      * @param container The container {@link FastScroller} for the view to inflate properly.
      * @return A view which will be by the {@link FastScroller} used as a bubble.
      */
-    public abstract FastScrollBubble provideBubbleView(ViewGroup container);
+    public abstract View provideBubbleView(ViewGroup container);
 
     /**
      * Bubble view has to provide a {@link TextView} that will show the index title.
@@ -48,5 +49,23 @@ public abstract class ScrollerViewProvider {
      * @return the position of the bubble in relation to the handle (according to the orientation).
      */
     public abstract int getBubbleOffset();
+
+    /**
+     * @return {@link ViewVisibilityManager} responsible for showing and hiding bubble.
+     */
+    public abstract ViewVisibilityManager provideBubbleVisibilityManager();
+
+    private ViewVisibilityManager getBubbleVisibilityManager(){
+        if(bubbleVisibilityManager==null) bubbleVisibilityManager = provideBubbleVisibilityManager();
+        return bubbleVisibilityManager;
+    }
+
+    public void handleGrabbed(){
+        if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().show();
+    }
+
+    public void handleReleased(){
+        if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().hide();
+    }
 
 }

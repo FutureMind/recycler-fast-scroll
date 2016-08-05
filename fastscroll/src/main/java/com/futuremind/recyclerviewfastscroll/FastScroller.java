@@ -21,12 +21,11 @@ public class FastScroller extends LinearLayout {
     private final RecyclerScrollListener scrollListener = new RecyclerScrollListener(this);
     private RecyclerView recyclerView;
 
-    private FastScrollBubble bubble;
+    private View bubble;
     private View handle;
     private TextView bubbleTextView;
 
     private int bubbleOffset;
-
     private int handleColor;
     private int bubbleColor;
     private int bubbleTextAppearance;
@@ -168,30 +167,20 @@ public class FastScroller extends LinearLayout {
         handle.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 requestDisallowInterceptTouchEvent(true);
-
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-
-                    if(titleProvider!=null) bubble.show();
+                    if(titleProvider!=null && event.getAction() == MotionEvent.ACTION_DOWN) viewProvider.handleGrabbed();
                     manuallyChangingPosition = true;
-
                     float relativePos = getRelativeTouchPosition(event);
                     setScrollerPosition(relativePos);
                     setRecyclerViewPosition(relativePos);
-
                     return true;
-
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-
                     manuallyChangingPosition = false;
-                    if(titleProvider!=null) bubble.hide();
+                    if(titleProvider!=null) viewProvider.handleReleased();
                     return true;
-
                 }
-
                 return false;
-
             }
         });
     }

@@ -12,7 +12,7 @@ import android.widget.TextView;
  */
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
-    private FastScrollBubble bubble;
+    private View bubble;
     private TextView bubbleTextView;
     private View handle;
 
@@ -38,20 +38,24 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
     }
 
     @Override
-    public FastScrollBubble provideBubbleView(ViewGroup container) {
-        bubble = (FastScrollBubble) LayoutInflater.from(getContext()).inflate(R.layout.fastscroll__bubble, container, false);
-        bubbleTextView = (TextView) bubble.getChildAt(0);
+    public View provideBubbleView(ViewGroup container) {
+        bubble = LayoutInflater.from(getContext()).inflate(R.layout.fastscroll__default_bubble, container, false);
         return bubble;
     }
 
     @Override
     public TextView provideBubbleTextView() {
-        return bubbleTextView;
+        return (TextView) bubble;
     }
 
     @Override
     public int getBubbleOffset() {
         return (int) (getScroller().isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
+    }
+
+    @Override
+    public ViewVisibilityManager provideBubbleVisibilityManager() {
+        return new ViewVisibilityManager(bubble);
     }
 
 }
