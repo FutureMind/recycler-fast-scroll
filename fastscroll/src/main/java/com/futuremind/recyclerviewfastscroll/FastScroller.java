@@ -60,8 +60,8 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    //TODO not tested yet
-    public void setViewProvider(ScrollerViewProvider viewProvider) {
+    //TODO Explicitly setting the ViewProvider not tested yet. It's gonna be a public method later.
+    private void setViewProvider(ScrollerViewProvider viewProvider) {
         setViewProvider(viewProvider, true);
     }
 
@@ -148,10 +148,12 @@ public class FastScroller extends LinearLayout {
         initHandleMovement();
         bubbleOffset = viewProvider.getBubbleOffset();
 
+        //TODO these don't belong here
         setBackgroundTint(bubbleTextView, bubbleColor);
         setBackgroundTint(handle, handleColor);
         TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
 
+        //sometimes recycler start with a scroll (e.g. when coming from saved state)
         scrollListener.updateHandlePosition(recyclerView);
 
     }
@@ -226,12 +228,11 @@ public class FastScroller extends LinearLayout {
     }
 
     private void setRecyclerViewPosition(float relativePos) {
-        if (recyclerView != null) {
-            int itemCount = recyclerView.getAdapter().getItemCount();
-            int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
-            recyclerView.scrollToPosition(targetPos);
-            if(titleProvider!=null && bubbleTextView!=null) bubbleTextView.setText(titleProvider.getSectionTitle(targetPos));
-        }
+        if (recyclerView == null) return;
+        int itemCount = recyclerView.getAdapter().getItemCount();
+        int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
+        recyclerView.scrollToPosition(targetPos);
+        if(titleProvider!=null && bubbleTextView!=null) bubbleTextView.setText(titleProvider.getSectionTitle(targetPos));
     }
 
     void setScrollerPosition(float relativePos) {
