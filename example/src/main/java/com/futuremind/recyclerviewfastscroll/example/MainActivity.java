@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         pager.setAdapter(new ExampleFragmentsAdapter(this, getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
     }
 

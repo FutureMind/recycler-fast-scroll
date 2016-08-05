@@ -59,8 +59,7 @@ public class FastScroller extends LinearLayout {
         }
     }
 
-    //TODO Explicitly setting the ViewProvider not tested yet. It's gonna be a public method later.
-    private void setViewProvider(ScrollerViewProvider viewProvider) {
+    public void setViewProvider(ScrollerViewProvider viewProvider) {
         setViewProvider(viewProvider, true);
     }
 
