@@ -8,7 +8,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -49,8 +48,8 @@ public class FastScroller extends LinearLayout {
         super(context, attrs, defStyle);
 
         viewProvider = new DefaultScrollerViewProvider(this);
-        bubble = (FastScrollBubble) LayoutInflater.from(context).inflate(R.layout.fastscroll__bubble, this, false);
-        handle = viewProvider.provideHandleView();
+        bubble = viewProvider.provideBubbleView(this);
+        handle = viewProvider.provideHandleView(this);
         addView(bubble);
         addView(handle);
 
@@ -226,7 +225,7 @@ public class FastScroller extends LinearLayout {
             int itemCount = recyclerView.getAdapter().getItemCount();
             int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
             recyclerView.scrollToPosition(targetPos);
-            if(titleProvider!=null) bubble.setText(titleProvider.getSectionTitle(targetPos));
+            if(titleProvider!=null) viewProvider.setText(titleProvider.getSectionTitle(targetPos));
         }
     }
 

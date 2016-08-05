@@ -2,6 +2,7 @@ package com.futuremind.recyclerviewfastscroll;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by Michal on 05/08/16.
@@ -22,5 +23,10 @@ public abstract class ScrollerViewProvider {
         return scroller;
     }
 
-    public abstract View provideHandleView();
+    public abstract View provideHandleView(ViewGroup container);
+
+    public abstract FastScrollBubble provideBubbleView(ViewGroup container);
+
+    public abstract void setText(String text);
+
 }
