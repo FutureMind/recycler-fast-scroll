@@ -27,6 +27,13 @@ public abstract class ScrollerViewProvider {
 
     public abstract FastScrollBubble provideBubbleView(ViewGroup container);
 
+    /**
+     * To offset the position of the bubble relative to the handle. E.g. in {@link DefaultScrollerViewProvider}
+     * the sharp corner of the bubble is aligned with the center of the handle.
+     * @return the position of the bubble in relation to the handle (according to the orientation)
+     */
+    public abstract int getBubbleOffset();
+
     public abstract void setText(String text);
 
 }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
     private FastScrollBubble bubble;
+    private View handle;
 
     public DefaultScrollerViewProvider(FastScroller scroller) {
         super(scroller);
@@ -19,7 +20,7 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
     @Override
     public View provideHandleView(ViewGroup container) {
-        View handle = new View(getContext());
+        handle = new View(getContext());
 
         int verticalInset = getScroller().isVertical() ? 0 : getContext().getResources().getDimensionPixelSize(R.dimen.fastscroll__handle_inset);
         int horizontalInset = !getScroller().isVertical() ? 0 : getContext().getResources().getDimensionPixelSize(R.dimen.fastscroll__handle_inset);
@@ -38,6 +39,11 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
     public FastScrollBubble provideBubbleView(ViewGroup container) {
         bubble = (FastScrollBubble) LayoutInflater.from(getContext()).inflate(R.layout.fastscroll__bubble, container, false);
         return bubble;
+    }
+
+    @Override
+    public int getBubbleOffset() {
+        return (int) (getScroller().isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
     }
 
     @Override

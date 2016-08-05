@@ -136,8 +136,8 @@ public class FastScroller extends LinearLayout {
 
         TextView defaultBubble = (TextView) bubble.getChildAt(0);
 
-        calculateSizes();
         initHandleMovement();
+        bubbleOffset = viewProvider.getBubbleOffset();
 
         setBackgroundTint(defaultBubble, bubbleColor);
         setBackgroundTint(handle, handleColor);
@@ -145,10 +145,6 @@ public class FastScroller extends LinearLayout {
 
         scrollListener.updateHandlePosition(recyclerView);
 
-    }
-
-    private void calculateSizes() {
-        bubbleOffset = (int) (isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
     }
 
     private void setBackgroundTint(View view, int color) {
