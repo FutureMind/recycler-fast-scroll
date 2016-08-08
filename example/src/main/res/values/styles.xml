@@ -1,14 +1,14 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="fastscroll__style">@style/DefaultScrollerStyle</item>
+        <!--<item name="fastscroll__style">@style/DefaultScrollerStyle</item>-->
     </style>
 
-    <style name="DefaultScrollerStyle">
-        <item name="fastscroll__bubbleTextAppearance">@android:style/TextAppearance.Small</item>
-        <item name="fastscroll__bubbleColor">@android:color/white</item>
-        <item name="fastscroll__handleColor">@android:color/darker_gray</item>
-    </style>
+    <!--<style name="DefaultScrollerStyle">-->
+        <!--<item name="fastscroll__bubbleTextAppearance">@android:style/TextAppearance.Small</item>-->
+        <!--<item name="fastscroll__bubbleColor">@android:color/white</item>-->
+        <!--<item name="fastscroll__handleColor">@android:color/darker_gray</item>-->
+    <!--</style>-->
 
     <!-- Used in fragment_styled.xml -->
     <style name="StyledScrollerTextAppearance" parent="@android:style/TextAppearance">

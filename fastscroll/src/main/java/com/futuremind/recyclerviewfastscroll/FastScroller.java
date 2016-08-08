@@ -3,7 +3,6 @@ package com.futuremind.recyclerviewfastscroll;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +17,7 @@ import android.widget.TextView;
  */
 public class FastScroller extends LinearLayout {
 
+    private static final int STYLE_NONE = -1;
     private final RecyclerScrollListener scrollListener = new RecyclerScrollListener(this);
     private RecyclerView recyclerView;
 
@@ -49,9 +49,9 @@ public class FastScroller extends LinearLayout {
         setClipChildren(false);
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
-            bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, ContextCompat.getColor(context, android.R.color.white));
-            handleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__handleColor, ContextCompat.getColor(context, android.R.color.darker_gray));
-            bubbleTextAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, android.R.style.TextAppearance);
+            bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, STYLE_NONE);
+            handleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__handleColor, STYLE_NONE);
+            bubbleTextAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, STYLE_NONE);
         } finally {
             style.recycle();
         }
@@ -147,19 +147,23 @@ public class FastScroller extends LinearLayout {
         bubbleOffset = viewProvider.getBubbleOffset();
 
         //TODO these don't belong here, even if it works
-        setBackgroundTint(bubbleTextView, bubbleColor);
-        setBackgroundTint(handle, handleColor);
-        TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
+        applyStyling();
 
         //sometimes recycler starts with a defined scroll (e.g. when coming from saved state)
         scrollListener.updateHandlePosition(recyclerView);
 
     }
 
+    private void applyStyling() {
+        if(bubbleColor!=STYLE_NONE) setBackgroundTint(bubbleTextView, bubbleColor);
+        if(handleColor!=STYLE_NONE) setBackgroundTint(handle, handleColor);
+        if(bubbleTextAppearance!=STYLE_NONE) TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
+    }
+
     private void setBackgroundTint(View view, int color) {
         final Drawable background = DrawableCompat.wrap(view.getBackground());
         if(background==null) return;
-        DrawableCompat.setTint(background, color);
+        DrawableCompat.setTint(background.mutate(), color);
         Utils.setBackground(view, background);
     }
 
