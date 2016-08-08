@@ -146,8 +146,7 @@ public class FastScroller extends LinearLayout {
         initHandleMovement();
         bubbleOffset = viewProvider.getBubbleOffset();
 
-        //TODO these don't belong here, even if it works
-        applyStyling();
+        applyStyling(); //TODO this doesn't belong here, even if it works
 
         //sometimes recycler starts with a defined scroll (e.g. when coming from saved state)
         scrollListener.updateHandlePosition(recyclerView);
