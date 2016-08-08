@@ -46,7 +46,6 @@ public class FastScroller extends LinearLayout {
 
     public FastScroller(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setViewProvider(new DefaultScrollerViewProvider(), false);
         setClipChildren(false);
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
@@ -58,8 +57,19 @@ public class FastScroller extends LinearLayout {
         }
     }
 
+    /**
+     * Enables custom layout for {@link FastScroller}.
+     * @param viewProvider A {@link ScrollerViewProvider} for the {@link FastScroller} to use when building layout.
+     */
     public void setViewProvider(ScrollerViewProvider viewProvider) {
-        setViewProvider(viewProvider, true);
+        removeAllViews();
+        this.viewProvider = viewProvider;
+        viewProvider.setFastScroller(this);
+        bubble = viewProvider.provideBubbleView(this);
+        handle = viewProvider.provideHandleView(this);
+        bubbleTextView = viewProvider.provideBubbleTextView();
+        addView(bubble);
+        addView(handle);
     }
 
     /**
@@ -70,6 +80,7 @@ public class FastScroller extends LinearLayout {
      */
     public void setRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
+        if(viewProvider==null) setViewProvider(new DefaultScrollerViewProvider());
         if(recyclerView.getAdapter() instanceof SectionTitleProvider) titleProvider = (SectionTitleProvider) recyclerView.getAdapter();
         recyclerView.addOnScrollListener(scrollListener);
         invalidateVisibility();
@@ -126,21 +137,6 @@ public class FastScroller extends LinearLayout {
     public void setBubbleTextAppearance(int textAppearanceResourceId){
         bubbleTextAppearance = textAppearanceResourceId;
         invalidate();
-    }
-
-    private void setViewProvider(ScrollerViewProvider viewProvider, boolean requestLayout) {
-        removeAllViews();
-        this.viewProvider = viewProvider;
-        viewProvider.setFastScroller(this);
-        bubble = viewProvider.provideBubbleView(this);
-        handle = viewProvider.provideHandleView(this);
-        bubbleTextView = viewProvider.provideBubbleTextView();
-        addView(bubble);
-        addView(handle);
-//        if(requestLayout){
-//
-//            requestLayout();
-//        }
     }
 
     @Override
