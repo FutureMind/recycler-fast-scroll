@@ -3,11 +3,13 @@ package com.futuremind.recyclerviewfastscroll.example;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener;
 import com.futuremind.recyclerviewfastscroll.ScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.Utils;
 import com.futuremind.recyclerviewfastscroll.VisibilityAnimationManager;
@@ -37,6 +39,15 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
         Utils.setBackground(bubble, drawCircle(dimen, dimen, ContextCompat.getColor(getContext(), R.color.custom_bubble_color)));
         bubble.setVisibility(View.INVISIBLE);
         bubble.setGravity(Gravity.CENTER);
+        bubble.setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
+        getScroller().addScrollerListener(new RecyclerViewScrollListener.ScrollerListener() {
+            @Override
+            public void onScroll(float relativePos) {
+                //Yeah, yeah, but we were so preoccupied with whether or not we could,
+                //that we didn't stop to think if we should.
+                bubble.setRotation(relativePos*360f);
+            }
+        });
         return bubble;
     }
 

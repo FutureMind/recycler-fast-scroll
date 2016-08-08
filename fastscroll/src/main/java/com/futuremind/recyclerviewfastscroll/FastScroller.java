@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class FastScroller extends LinearLayout {
 
     private static final int STYLE_NONE = -1;
-    private final RecyclerScrollListener scrollListener = new RecyclerScrollListener(this);
+    private final RecyclerViewScrollListener scrollListener = new RecyclerViewScrollListener(this);
     private RecyclerView recyclerView;
 
     private View bubble;
@@ -137,6 +137,15 @@ public class FastScroller extends LinearLayout {
     public void setBubbleTextAppearance(int textAppearanceResourceId){
         bubbleTextAppearance = textAppearanceResourceId;
         invalidate();
+    }
+
+    /**
+     * Add a {@link com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener.ScrollerListener}
+     * to be notified of user scrolling
+     * @param listener
+     */
+    public void addScrollerListener(RecyclerViewScrollListener.ScrollerListener listener){
+        scrollListener.addScrollerListener(listener);
     }
 
     @Override
