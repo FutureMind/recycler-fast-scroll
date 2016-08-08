@@ -146,12 +146,12 @@ public class FastScroller extends LinearLayout {
         initHandleMovement();
         bubbleOffset = viewProvider.getBubbleOffset();
 
-        //TODO these don't belong here
+        //TODO these don't belong here, even if it works
         setBackgroundTint(bubbleTextView, bubbleColor);
         setBackgroundTint(handle, handleColor);
         TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
 
-        //sometimes recycler start with a scroll (e.g. when coming from saved state)
+        //sometimes recycler starts with a defined scroll (e.g. when coming from saved state)
         scrollListener.updateHandlePosition(recyclerView);
 
     }
