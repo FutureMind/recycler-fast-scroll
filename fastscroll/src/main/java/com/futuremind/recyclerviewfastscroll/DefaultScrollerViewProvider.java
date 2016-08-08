@@ -1,9 +1,7 @@
 package com.futuremind.recyclerviewfastscroll;
 
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +49,8 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
     }
 
     @Override
-    public ViewVisibilityManager provideBubbleVisibilityManager() {
-        return new ViewVisibilityManager(bubble);
+    public VisibilityAnimationManager provideBubbleVisibilityManager() {
+        return new VisibilityAnimationManager.Builder(bubble).withPivotX(1f).withPivotY(1f).build();
     }
 
 }

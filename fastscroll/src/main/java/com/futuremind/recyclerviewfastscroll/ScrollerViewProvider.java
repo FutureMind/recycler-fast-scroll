@@ -11,7 +11,7 @@ import android.widget.TextView;
 public abstract class ScrollerViewProvider {
 
     private FastScroller scroller;
-    private ViewVisibilityManager bubbleVisibilityManager;
+    private VisibilityAnimationManager bubbleVisibilityManager;
 
     void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
@@ -51,11 +51,11 @@ public abstract class ScrollerViewProvider {
     public abstract int getBubbleOffset();
 
     /**
-     * @return {@link ViewVisibilityManager} responsible for showing and hiding bubble.
+     * @return {@link VisibilityAnimationManager} responsible for showing and hiding bubble.
      */
-    public abstract ViewVisibilityManager provideBubbleVisibilityManager();
+    public abstract VisibilityAnimationManager provideBubbleVisibilityManager();
 
-    private ViewVisibilityManager getBubbleVisibilityManager(){
+    private VisibilityAnimationManager getBubbleVisibilityManager(){
         if(bubbleVisibilityManager==null) bubbleVisibilityManager = provideBubbleVisibilityManager();
         return bubbleVisibilityManager;
     }
