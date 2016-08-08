@@ -1,9 +1,7 @@
 # recycler-fast-scroll
 Provides fast scroll and section indexer for recycler view. Uses a different mechanism than similar libraries to provide smooth movement of scroller handle when scrolling the list. Can be used with vertical and horizontal RecyclerViews.
 
-This library is still in early development stage. PRs are welcome.
-
-![alt tag](http://i.imgur.com/EQsZ01x.gif)
+![alt tag](http://i.imgur.com/Ugqhzud.gif)
 
 ## Usage
 --------
@@ -74,7 +72,7 @@ You can style the attributes in the xml layout:
 
 Or directly in the code:
 
-```
+```java
          fastScroller.setBubbleColor(0xffff0000);
          fastScroller.setHandleColor(0xffff0000);
          fastScroller.setBubbleTextAppearance(R.style.StyledScrollerTextAppearance);
@@ -82,12 +80,24 @@ Or directly in the code:
 
 See the example code for more info.
 
+## Custom views
+--------
+
+You can set a custom view for your handle and bubble using:
+
+```java
+        myViewProvider = new MyScrollerViewProvider();
+        fastScroller.setViewProvider(myViewProvider);
+```
+
+For more information, consult [CustomScrollerViewProvider](/example/src/main/java/com/futuremind/recyclerviewfastscroll/example/CustomScrollerViewProvider.java) in the example code.
+
 ## Download
 --------
 
 Download via Gradle:
 ```groovy
-compile 'com.futuremind.recyclerfastscroll:fastscroll:0.1.5'
+compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.0'
 ```
 
 ## License
