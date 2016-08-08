@@ -4,9 +4,11 @@ Provides fast scroll and section indexer for recycler view. Uses a different mec
 ![alt tag](http://i.imgur.com/Ugqhzud.gif)
 
 ## Usage
---------
+
+### Minimal working example
+
 In your layout file:
-```java
+```xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -28,7 +30,6 @@ In your layout file:
 ```
 
 In Activity/Fragment:
-
 ```java
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         fastScroller = (FastScroller) findViewById(R.id.fastscroll);
@@ -43,25 +44,21 @@ In Activity/Fragment:
 
 You can use this library with horizontal LayoutManager. To do it use android:orientation="horizontal" attribute:
 
-```java
-
+```xml
     <com.futuremind.recyclerviewfastscroll.FastScroller
         android:id="@+id/fastscroll"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 ```
 
-## Styling
---------
+### Styling
 
 Styling was introduced in version 0.1.5 with a limited set of styleable attributes. More are on their way.
 
 You can style the attributes in the xml layout:
 
-```java
-    
+```xml
     <com.futuremind.recyclerviewfastscroll.FastScroller
            ...
            app:fastscroll__handleColor="#8f93d1"
@@ -80,20 +77,18 @@ Or directly in the code:
 
 See the example code for more info.
 
-## Custom views
---------
+### Custom views
 
-You can set a custom view for your handle and bubble using:
+You can set a custom view for your handle and bubble, as well as custom show/hide animations, using:
 
 ```java
         myViewProvider = new MyScrollerViewProvider();
         fastScroller.setViewProvider(myViewProvider);
 ```
 
-For more information, consult [CustomScrollerViewProvider](/example/src/main/java/com/futuremind/recyclerviewfastscroll/example/CustomScrollerViewProvider.java) in the example code.
+For more information, consult [`CustomScrollerViewProvider`](/example/src/main/java/com/futuremind/recyclerviewfastscroll/example/CustomScrollerViewProvider.java) in the example code.
 
 ## Download
---------
 
 Download via Gradle:
 ```groovy
@@ -101,7 +96,6 @@ compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.0'
 ```
 
 ## License
--------
 
     Copyright 2015 Future Mind
 
