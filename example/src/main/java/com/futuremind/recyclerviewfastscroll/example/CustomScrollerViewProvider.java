@@ -3,6 +3,7 @@ package com.futuremind.recyclerviewfastscroll.example;
 import android.content.Context;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
         handle = new View(getContext());
         int dimen = getContext().getResources().getDimensionPixelSize(R.dimen.custom_handle_size);
         handle.setLayoutParams(new ViewGroup.LayoutParams(dimen, dimen));
-        Utils.setBackground(handle, drawCircle(getContext(), dimen, dimen, 0xff00ff00));
+        Utils.setBackground(handle, drawCircle(getContext(), dimen, dimen, ContextCompat.getColor(getContext(), R.color.custom_handle_color)));
         return handle;
     }
 
@@ -34,7 +35,7 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
         bubble = new TextView(getContext());
         int dimen = getContext().getResources().getDimensionPixelSize(R.dimen.custom_bubble_size);
         bubble.setLayoutParams(new ViewGroup.LayoutParams(dimen, dimen));
-        Utils.setBackground(bubble, drawCircle(getContext(), dimen, dimen, 0xff00ff00));
+        Utils.setBackground(bubble, drawCircle(getContext(), dimen, dimen, ContextCompat.getColor(getContext(), R.color.custom_bubble_color)));
         bubble.setVisibility(View.INVISIBLE);
         bubble.setGravity(Gravity.CENTER);
         return bubble;

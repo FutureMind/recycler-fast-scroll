@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="custom_handle_color">#90a4ae</color>
+    <color name="custom_bubble_color">#607d8b</color>
+</resources>
