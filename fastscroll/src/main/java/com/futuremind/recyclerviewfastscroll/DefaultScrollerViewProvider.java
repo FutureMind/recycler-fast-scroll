@@ -53,4 +53,10 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
         return new VisibilityAnimationManager.Builder(bubble).withPivotX(1f).withPivotY(1f).build();
     }
 
+    @Override
+    public HandleAnimationManager provideHandleVisibilityManager() {
+        final float x = getScroller().isVertical() ? 1f : 0.5f;
+        final float y = getScroller().isVertical() ? 0.5f : 1f;
+        return new HandleAnimationManager.Builder(handle).withPivotX(x).withPivotY(y).build();
+    }
 }

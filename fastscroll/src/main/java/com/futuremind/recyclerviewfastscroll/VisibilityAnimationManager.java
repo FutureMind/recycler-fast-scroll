@@ -11,15 +11,15 @@ import android.view.View;
  */
 public class VisibilityAnimationManager {
 
-    private final View view;
+    protected final View view;
 
-    private AnimatorSet hideAnimator;
-    private AnimatorSet showAnimator;
+    protected AnimatorSet hideAnimator;
+    protected AnimatorSet showAnimator;
 
-    private VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
+    protected VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
-        view.setPivotX(pivotXRelative*view.getWidth());
-        view.setPivotY(pivotYRelative*view.getWidth());
+        view.setPivotX(pivotXRelative*view.getMeasuredWidth());
+        view.setPivotY(pivotYRelative*view.getMeasuredWidth());
         this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
         this.hideAnimator.setStartDelay(hideDelay);
         this.hideAnimator.setTarget(view);
@@ -54,42 +54,50 @@ public class VisibilityAnimationManager {
         hideAnimator.start();
     }
 
-    public static class Builder {
+    protected static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
+        protected final View view;
+        protected int showAnimatorResource = R.animator.fastscroll__default_show;
+        protected int hideAnimatorResource = R.animator.fastscroll__default_hide;
+        protected int hideDelay = 1000;
+        protected float pivotX = 0.5f;
+        protected float pivotY = 0.5f;
 
-        private final View view;
-        private int showAnimatorResource = R.animator.fastscroll__default_show;
-        private int hideAnimatorResource = R.animator.fastscroll__default_hide;
-        private int hideDelay = 1000;
-        private float pivotX = 0.5f;
-        private float pivotY = 0.5f;
-
-        public Builder(View view) {
+        public AbsBuilder(View view) {
             this.view = view;
         }
 
-        public Builder withShowAnimator(int showAnimatorResource){
+        public AbsBuilder<T> withShowAnimator(int showAnimatorResource){
             this.showAnimatorResource = showAnimatorResource;
             return this;
         }
 
-        public Builder withHideAnimator(int hideAnimatorResource){
+        public AbsBuilder<T> withHideAnimator(int hideAnimatorResource){
             this.hideAnimatorResource = hideAnimatorResource;
             return this;
         }
 
-        public Builder withHideDelay(int hideDelay){
+        public AbsBuilder<T> withHideDelay(int hideDelay){
             this.hideDelay = hideDelay;
             return this;
         }
 
-        public Builder withPivotX(float pivotX){
+        public AbsBuilder<T> withPivotX(float pivotX){
             this.pivotX = pivotX;
             return this;
         }
 
-        public Builder withPivotY(float pivotY){
+        public AbsBuilder<T> withPivotY(float pivotY){
             this.pivotY = pivotY;
             return this;
+        }
+
+        public abstract T build();
+    }
+
+    public static class Builder extends AbsBuilder<VisibilityAnimationManager> {
+
+        public Builder(View view) {
+            super(view);
         }
 
         public VisibilityAnimationManager build(){

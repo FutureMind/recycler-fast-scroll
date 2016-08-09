@@ -1,6 +1,7 @@
 package com.futuremind.recyclerviewfastscroll;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ public abstract class ScrollerViewProvider {
 
     private FastScroller scroller;
     private VisibilityAnimationManager bubbleVisibilityManager;
+    private HandleAnimationManager handleVisibilityManager;
 
     void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
@@ -55,9 +57,19 @@ public abstract class ScrollerViewProvider {
      */
     public abstract VisibilityAnimationManager provideBubbleVisibilityManager();
 
+    /**
+     * @return {@link HandleAnimationManager} responsible for showing and hiding handle.
+     */
+    public abstract HandleAnimationManager provideHandleVisibilityManager();
+
     private VisibilityAnimationManager getBubbleVisibilityManager(){
         if(bubbleVisibilityManager==null) bubbleVisibilityManager = provideBubbleVisibilityManager();
         return bubbleVisibilityManager;
+    }
+
+    private HandleAnimationManager getHandleVisibilityManager(){
+        if(handleVisibilityManager==null) handleVisibilityManager = provideHandleVisibilityManager();
+        return handleVisibilityManager;
     }
 
     public void handleGrabbed(){
@@ -66,6 +78,10 @@ public abstract class ScrollerViewProvider {
 
     public void handleReleased(){
         if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().hide();
+    }
+
+    public void onScroll(){
+        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().onScroll();
     }
 
 }

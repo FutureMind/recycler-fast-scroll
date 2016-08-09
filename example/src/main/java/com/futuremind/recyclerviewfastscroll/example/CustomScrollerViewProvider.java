@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.HandleAnimationManager;
 import com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener;
 import com.futuremind.recyclerviewfastscroll.ScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.Utils;
@@ -64,6 +65,11 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
     @Override
     public VisibilityAnimationManager provideBubbleVisibilityManager() {
         return new VisibilityAnimationManager.Builder(bubble).build();
+    }
+
+    @Override
+    public HandleAnimationManager provideHandleVisibilityManager() {
+        return new HandleAnimationManager.Builder(handle).build();
     }
 
     private static ShapeDrawable drawCircle (int width, int height, int color) {

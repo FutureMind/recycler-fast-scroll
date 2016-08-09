@@ -260,6 +260,7 @@ public class FastScroller extends LinearLayout {
                     relativePos * (getWidth() - handle.getWidth()))
             );
         }
+        viewProvider.onScroll();
     }
 
     public boolean isVertical(){
