@@ -54,7 +54,7 @@ public class VisibilityAnimationManager {
         hideAnimator.start();
     }
 
-    protected static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
+    public static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
         protected final View view;
         protected int showAnimatorResource = R.animator.fastscroll__default_show;
         protected int hideAnimatorResource = R.animator.fastscroll__default_hide;
