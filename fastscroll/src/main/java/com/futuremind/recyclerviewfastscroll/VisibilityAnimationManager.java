@@ -13,19 +13,19 @@ public class VisibilityAnimationManager {
 
     private final View view;
 
-    private AnimatorSet bubbleHideAnimator;
-    private AnimatorSet bubbleShowAnimator;
+    private AnimatorSet hideAnimator;
+    private AnimatorSet showAnimator;
 
     private VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
         view.setPivotX(pivotXRelative*view.getWidth());
         view.setPivotY(pivotYRelative*view.getWidth());
-        bubbleHideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
-        bubbleHideAnimator.setStartDelay(hideDelay);
-        bubbleHideAnimator.setTarget(view);
-        bubbleShowAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), showAnimator);
-        bubbleShowAnimator.setTarget(view);
-        bubbleHideAnimator.addListener(new AnimatorListenerAdapter() {
+        this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
+        this.hideAnimator.setStartDelay(hideDelay);
+        this.hideAnimator.setTarget(view);
+        this.showAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), showAnimator);
+        this.showAnimator.setTarget(view);
+        this.hideAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -41,24 +41,24 @@ public class VisibilityAnimationManager {
     }
 
     public void show(){
-        if (bubbleHideAnimator.isRunning()) {
-            bubbleHideAnimator.cancel();
+        if (hideAnimator.isRunning()) {
+            hideAnimator.cancel();
         }
         if (view.getVisibility() == View.INVISIBLE) {
             view.setVisibility(View.VISIBLE);
-            bubbleShowAnimator.start();
+            showAnimator.start();
         }
     }
 
     public void hide(){
-        bubbleHideAnimator.start();
+        hideAnimator.start();
     }
 
     public static class Builder {
 
         private final View view;
-        private int showAnimatorResource = R.animator.fastscroll__default_bubble_show;
-        private int hideAnimatorResource = R.animator.fastscroll__default_bubble_hide;
+        private int showAnimatorResource = R.animator.fastscroll__default_show;
+        private int hideAnimatorResource = R.animator.fastscroll__default_hide;
         private int hideDelay = 1000;
         private float pivotX = 0.5f;
         private float pivotY = 0.5f;
