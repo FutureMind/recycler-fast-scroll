@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -17,10 +16,13 @@ public class VisibilityAnimationManager {
     protected AnimatorSet hideAnimator;
     protected AnimatorSet showAnimator;
 
+    private float pivotXRelative;
+    private float pivotYRelative;
+
     protected VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
-        view.setPivotX(pivotXRelative*view.getMeasuredWidth());
-        view.setPivotY(pivotYRelative*view.getMeasuredHeight());
+        this.pivotXRelative = pivotXRelative;
+        this.pivotYRelative = pivotYRelative;
         this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
         this.hideAnimator.setStartDelay(hideDelay);
         this.hideAnimator.setTarget(view);
@@ -44,18 +46,27 @@ public class VisibilityAnimationManager {
                 wasCanceled = true;
             }
         });
+
+        updatePivot();
     }
 
     public void show(){
         hideAnimator.cancel();
         if (view.getVisibility() == View.INVISIBLE) {
             view.setVisibility(View.VISIBLE);
+            updatePivot();
             showAnimator.start();
         }
     }
 
     public void hide(){
+        updatePivot();
         hideAnimator.start();
+    }
+
+    protected void updatePivot() {
+        view.setPivotX(pivotXRelative*view.getMeasuredWidth());
+        view.setPivotY(pivotYRelative*view.getMeasuredHeight());
     }
 
     public static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
