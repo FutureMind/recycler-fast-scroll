@@ -27,7 +27,7 @@ ext {
     bintrayName = 'recycler-fast-scroll'
 
     publishedGroupId = 'com.futuremind.recyclerfastscroll'
-    libraryName = 'Recycler Fast Scroll'
+    libraryName = 'Recycler Bubble'
     artifact = 'fastscroll'
 
     libraryDescription = 'Provides fast scroll and section indexer for recycler view.'

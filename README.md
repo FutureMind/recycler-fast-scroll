@@ -1,5 +1,5 @@
-# recycler-fast-scroll
-Provides fast scroll and section indexer for recycler view. Uses a different mechanism than similar libraries to provide smooth movement of scroller handle when scrolling the list. Can be used with vertical and horizontal RecyclerViews.
+# Recycler Bubble
+Provides fast scroll and section indexer for recycler view. Uses a different mechanism than similar libraries to provide smooth movement of scroller handle when scrolling the list. Can be used with vertical and horizontal RecyclerViews. You can style it or even use a custom layout and animations for your fast scroll handle and bubble.
 
 ![alt tag](http://i.imgur.com/Ugqhzud.gif)
 
