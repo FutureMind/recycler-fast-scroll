@@ -19,7 +19,7 @@ public class VisibilityAnimationManager {
     protected VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
         view.setPivotX(pivotXRelative*view.getMeasuredWidth());
-        view.setPivotY(pivotYRelative*view.getMeasuredWidth());
+        view.setPivotY(pivotYRelative*view.getMeasuredHeight());
         this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
         this.hideAnimator.setStartDelay(hideDelay);
         this.hideAnimator.setTarget(view);
