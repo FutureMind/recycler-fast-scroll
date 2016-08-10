@@ -13,6 +13,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
     private final FastScroller scroller;
     List<ScrollerListener> listeners = new ArrayList<>();
+    int oldScrollState = RecyclerView.SCROLL_STATE_IDLE;
 
     public RecyclerViewScrollListener(FastScroller scroller) {
         this.scroller = scroller;
@@ -20,6 +21,17 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
     public void addScrollerListener(ScrollerListener listener){
         listeners.add(listener);
+    }
+
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newScrollState) {
+        super.onScrollStateChanged(recyclerView, newScrollState);
+        if(newScrollState==RecyclerView.SCROLL_STATE_IDLE && oldScrollState!=RecyclerView.SCROLL_STATE_IDLE){
+            scroller.getViewProvider().onScrollFinished();
+        } else if(newScrollState!=RecyclerView.SCROLL_STATE_IDLE && oldScrollState==RecyclerView.SCROLL_STATE_IDLE){
+            scroller.getViewProvider().onScrollStarted();
+        }
+        oldScrollState = newScrollState;
     }
 
     @Override

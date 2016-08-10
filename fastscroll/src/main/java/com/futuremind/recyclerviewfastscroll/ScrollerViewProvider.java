@@ -13,7 +13,7 @@ public abstract class ScrollerViewProvider {
 
     private FastScroller scroller;
     private VisibilityAnimationManager bubbleVisibilityManager;
-    private HandleAnimationManager handleVisibilityManager;
+    private VisibilityAnimationManager handleVisibilityManager;
 
     void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
@@ -58,16 +58,16 @@ public abstract class ScrollerViewProvider {
     public abstract VisibilityAnimationManager provideBubbleVisibilityManager();
 
     /**
-     * @return {@link HandleAnimationManager} responsible for showing and hiding handle.
+     * @return {@link VisibilityAnimationManager} responsible for showing and hiding handle.
      */
-    public abstract HandleAnimationManager provideHandleVisibilityManager();
+    public abstract VisibilityAnimationManager provideHandleVisibilityManager();
 
     private VisibilityAnimationManager getBubbleVisibilityManager(){
         if(bubbleVisibilityManager==null) bubbleVisibilityManager = provideBubbleVisibilityManager();
         return bubbleVisibilityManager;
     }
 
-    private HandleAnimationManager getHandleVisibilityManager(){
+    private VisibilityAnimationManager getHandleVisibilityManager(){
         if(handleVisibilityManager==null) handleVisibilityManager = provideHandleVisibilityManager();
         return handleVisibilityManager;
     }
@@ -80,8 +80,12 @@ public abstract class ScrollerViewProvider {
         if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().hide();
     }
 
-    public void onScroll(){
-        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().onScroll();
+    public void onScrollStarted(){
+        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().show();
+    }
+
+    public void onScrollFinished(){
+        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().hide();
     }
 
 }

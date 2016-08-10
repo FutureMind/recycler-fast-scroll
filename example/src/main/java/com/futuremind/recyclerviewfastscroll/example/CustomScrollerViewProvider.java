@@ -3,13 +3,11 @@ package com.futuremind.recyclerviewfastscroll.example;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.futuremind.recyclerviewfastscroll.HandleAnimationManager;
 import com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener;
 import com.futuremind.recyclerviewfastscroll.ScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.Utils;
@@ -29,6 +27,7 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
         int dimen = getContext().getResources().getDimensionPixelSize(R.dimen.custom_handle_size);
         handle.setLayoutParams(new ViewGroup.LayoutParams(dimen, dimen));
         Utils.setBackground(handle, drawCircle(dimen, dimen, ContextCompat.getColor(getContext(), R.color.custom_handle_color)));
+        handle.setVisibility(View.INVISIBLE);
         return handle;
     }
 
@@ -64,12 +63,12 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
 
     @Override
     public VisibilityAnimationManager provideBubbleVisibilityManager() {
-        return new VisibilityAnimationManager.Builder(bubble).build();
+        return new VisibilityAnimationManager.Builder(bubble).withHideDelay(0).build();
     }
 
     @Override
-    public HandleAnimationManager provideHandleVisibilityManager() {
-        return new HandleAnimationManager.Builder(handle).build();
+    public VisibilityAnimationManager provideHandleVisibilityManager() {
+        return new VisibilityAnimationManager.Builder(handle).withHideDelay(2000).build();
     }
 
     private static ShapeDrawable drawCircle (int width, int height, int color) {

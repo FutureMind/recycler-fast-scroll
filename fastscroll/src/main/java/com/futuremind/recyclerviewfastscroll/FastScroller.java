@@ -260,7 +260,6 @@ public class FastScroller extends LinearLayout {
                     relativePos * (getWidth() - handle.getWidth()))
             );
         }
-        viewProvider.onScroll();
     }
 
     public boolean isVertical(){
@@ -269,5 +268,9 @@ public class FastScroller extends LinearLayout {
 
     boolean shouldUpdateHandlePosition() {
         return handle!=null && !manuallyChangingPosition && recyclerView.getChildCount() > 0;
+    }
+
+    ScrollerViewProvider getViewProvider() {
+        return viewProvider;
     }
 }
