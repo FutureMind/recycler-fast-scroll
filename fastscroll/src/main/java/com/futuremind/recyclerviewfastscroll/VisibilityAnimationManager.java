@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -26,24 +27,27 @@ public class VisibilityAnimationManager {
         this.showAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), showAnimator);
         this.showAnimator.setTarget(view);
         this.hideAnimator.addListener(new AnimatorListenerAdapter() {
+
+            //because onAnimationEnd() goes off even for canceled animations
+            boolean wasCanceled;
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                view.setVisibility(View.INVISIBLE);
+                if(!wasCanceled) view.setVisibility(View.INVISIBLE);
+                wasCanceled = false;
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
                 super.onAnimationCancel(animation);
-                view.setVisibility(View.INVISIBLE);
+                wasCanceled = true;
             }
         });
     }
 
     public void show(){
-        if (hideAnimator.isRunning()) {
-            hideAnimator.cancel();
-        }
+        hideAnimator.cancel();
         if (view.getVisibility() == View.INVISIBLE) {
             view.setVisibility(View.VISIBLE);
             showAnimator.start();
