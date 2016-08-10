@@ -4,7 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
-import android.util.Log;
+import android.support.annotation.AnimatorRes;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 /**
@@ -14,48 +15,82 @@ public class VisibilityAnimationManager {
 
     protected final View view;
 
+    @Nullable
     protected AnimatorSet hideAnimator;
+    @Nullable
     protected AnimatorSet showAnimator;
 
-    protected VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
+    protected int hideDelay;
+    protected final Runnable hideDelayRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hideNow();
+        }
+    };
+
+    protected VisibilityAnimationManager(final View view, int showAnimator, final int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
+        this.hideDelay = hideDelay;
         view.setPivotX(pivotXRelative*view.getMeasuredWidth());
         view.setPivotY(pivotYRelative*view.getMeasuredHeight());
-        this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
-        this.hideAnimator.setStartDelay(hideDelay);
-        this.hideAnimator.setTarget(view);
-        this.showAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), showAnimator);
-        this.showAnimator.setTarget(view);
-        this.hideAnimator.addListener(new AnimatorListenerAdapter() {
 
-            //because onAnimationEnd() goes off even for canceled animations
-            boolean wasCanceled;
+        if (hideAnimator != -1) {
+            this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
+            this.hideAnimator.setTarget(view);
+            this.hideAnimator.addListener(new AnimatorListenerAdapter() {
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                if(!wasCanceled) view.setVisibility(View.INVISIBLE);
-                wasCanceled = false;
-            }
+                //because onAnimationEnd() goes off even for canceled animations
+                boolean wasCanceled;
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                super.onAnimationCancel(animation);
-                wasCanceled = true;
-            }
-        });
-    }
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if(!wasCanceled) view.setVisibility(View.INVISIBLE);
+                    wasCanceled = false;
+                }
 
-    public void show(){
-        hideAnimator.cancel();
-        if (view.getVisibility() == View.INVISIBLE) {
-            view.setVisibility(View.VISIBLE);
-            showAnimator.start();
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    super.onAnimationCancel(animation);
+                    wasCanceled = true;
+                }
+            });
+        }
+
+        if (showAnimator != -1) {
+            this.showAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), showAnimator);
+            this.showAnimator.setTarget(view);
         }
     }
 
-    public void hide(){
-        hideAnimator.start();
+    public void show(){
+        if (hideAnimator != null) {
+            hideAnimator.cancel();
+        }
+        view.removeCallbacks(hideDelayRunnable);
+
+        if (view.getVisibility() == View.INVISIBLE) {
+            view.setVisibility(View.VISIBLE);
+            if (showAnimator != null) {
+                showAnimator.start();
+            }
+        }
+    }
+
+    public void hide() {
+        if (hideDelay > 0) {
+            view.postDelayed(hideDelayRunnable, hideDelay);
+        } else {
+            hideNow();
+        }
+    }
+
+    protected void hideNow() {
+        if (hideAnimator != null) {
+            hideAnimator.start();
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
     }
 
     public static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
@@ -70,12 +105,19 @@ public class VisibilityAnimationManager {
             this.view = view;
         }
 
-        public AbsBuilder<T> withShowAnimator(int showAnimatorResource){
+
+        /**
+         * @param showAnimatorResource Show Animator resource ID, or -1 for no animation.
+         */
+        public AbsBuilder<T> withShowAnimator(@AnimatorRes int showAnimatorResource){
             this.showAnimatorResource = showAnimatorResource;
             return this;
         }
 
-        public AbsBuilder<T> withHideAnimator(int hideAnimatorResource){
+        /**
+         * @param hideAnimatorResource Hide Animator resource ID, or -1 for no animation.
+         */
+        public AbsBuilder<T> withHideAnimator(@AnimatorRes int hideAnimatorResource){
             this.hideAnimatorResource = hideAnimatorResource;
             return this;
         }
