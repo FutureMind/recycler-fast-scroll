@@ -75,6 +75,8 @@ public class FastScroller extends LinearLayout {
         bubbleTextView = viewProvider.provideBubbleTextView();
         addView(bubble);
         addView(handle);
+
+        updateMargin();
     }
 
     /**
@@ -169,17 +171,25 @@ public class FastScroller extends LinearLayout {
         initHandleMovement();
         bubbleOffset = viewProvider.getBubbleOffset();
 
-        final int right = isVertical() ? bubbleMargin : 0;
-        final int bottom = !isVertical() ? bubbleMargin : 0;
-        final LayoutParams bubbleParams = (LayoutParams) bubble.getLayoutParams();
-        bubbleParams.setMargins(0, 0, right, bottom);
-        bubble.setLayoutParams(bubbleParams);
-
         applyStyling(); //TODO this doesn't belong here, even if it works
 
         //sometimes recycler starts with a defined scroll (e.g. when coming from saved state)
         scrollListener.updateHandlePosition(recyclerView);
 
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        updateMargin();
+    }
+
+    private void updateMargin() {
+        final int right = isVertical() ? bubbleMargin : 0;
+        final int bottom = !isVertical() ? bubbleMargin : 0;
+        final LayoutParams bubbleParams = (LayoutParams) bubble.getLayoutParams();
+        bubbleParams.setMargins(0, 0, right, bottom);
+        bubble.setLayoutParams(bubbleParams);
     }
 
     private void applyStyling() {
