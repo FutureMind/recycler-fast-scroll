@@ -47,8 +47,8 @@ public class VisibilityAnimationManager {
     }
 
     public void show(){
-        hideAnimator.cancel();
-        if (view.getVisibility() == View.INVISIBLE) {
+        if (view.getVisibility() == View.INVISIBLE || hideAnimator.isRunning()) {
+            hideAnimator.cancel();
             view.setVisibility(View.VISIBLE);
             showAnimator.start();
         }
