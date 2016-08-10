@@ -15,9 +15,6 @@ public abstract class ScrollerViewProvider {
     private VisibilityAnimationManager bubbleVisibilityManager;
     private VisibilityAnimationManager handleVisibilityManager;
 
-    private boolean isGrabbing;
-    private boolean isScrolling;
-
     void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
     }
@@ -76,24 +73,21 @@ public abstract class ScrollerViewProvider {
     }
 
     protected void handleGrabbed(){
-        isGrabbing = true;
         if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().show();
+        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().show();
     }
 
     protected void handleReleased(){
-        isGrabbing = false;
         if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().hide();
-        if(getHandleVisibilityManager()!=null && !isScrolling) getHandleVisibilityManager().hide();
+        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().hide();
     }
 
     protected void onScrollStarted(){
-        isScrolling = true;
         if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().show();
     }
 
     protected void onScrollFinished(){
-        isScrolling = false;
-        if(getHandleVisibilityManager()!=null && !isGrabbing) getHandleVisibilityManager().hide();
+        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().hide();
     }
 
 }
