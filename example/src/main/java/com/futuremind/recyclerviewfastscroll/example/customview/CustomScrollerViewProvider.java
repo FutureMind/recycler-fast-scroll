@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.futuremind.recyclerviewfastscroll.DefaultBubbleBehavior;
+import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultBubbleBehavior;
 import com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener;
-import com.futuremind.recyclerviewfastscroll.ScrollerViewProvider;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.Utils;
-import com.futuremind.recyclerviewfastscroll.ViewBehavior;
-import com.futuremind.recyclerviewfastscroll.VisibilityAnimationManager;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ViewBehavior;
+import com.futuremind.recyclerviewfastscroll.viewprovider.VisibilityAnimationManager;
 import com.futuremind.recyclerviewfastscroll.example.R;
 
 /**

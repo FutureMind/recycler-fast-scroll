@@ -1,4 +1,4 @@
-package com.futuremind.recyclerviewfastscroll;
+package com.futuremind.recyclerviewfastscroll.viewprovider;
 
 /**
  * Created by Michal on 11/08/16.

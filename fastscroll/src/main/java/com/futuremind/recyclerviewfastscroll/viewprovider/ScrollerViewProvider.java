@@ -1,15 +1,16 @@
-package com.futuremind.recyclerviewfastscroll;
+package com.futuremind.recyclerviewfastscroll.viewprovider;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
+
 /**
  * Created by Michal on 05/08/16.
+ * Provides {@link View}s and their behaviors for the handle and bubble of the fastscroller.
  */
 public abstract class ScrollerViewProvider {
 
@@ -17,7 +18,7 @@ public abstract class ScrollerViewProvider {
     private ViewBehavior handleBehavior;
     private ViewBehavior bubbleBehavior;
 
-    void setFastScroller(FastScroller scroller){
+    public void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
     }
 
@@ -33,26 +34,26 @@ public abstract class ScrollerViewProvider {
      * @param container The container {@link FastScroller} for the view to inflate properly.
      * @return A view which will be by the {@link FastScroller} used as a handle.
      */
-    protected abstract View provideHandleView(ViewGroup container);
+    public abstract View provideHandleView(ViewGroup container);
 
     /**
      * @param container The container {@link FastScroller} for the view to inflate properly.
      * @return A view which will be by the {@link FastScroller} used as a bubble.
      */
-    protected abstract View provideBubbleView(ViewGroup container);
+    public abstract View provideBubbleView(ViewGroup container);
 
     /**
      * Bubble view has to provide a {@link TextView} that will show the index title.
      * @return A {@link TextView} that will hold the index title.
      */
-    protected abstract TextView provideBubbleTextView();
+    public abstract TextView provideBubbleTextView();
 
     /**
      * To offset the position of the bubble relative to the handle. E.g. in {@link DefaultScrollerViewProvider}
      * the sharp corner of the bubble is aligned with the center of the handle.
      * @return the position of the bubble in relation to the handle (according to the orientation).
      */
-    protected abstract int getBubbleOffset();
+    public abstract int getBubbleOffset();
 
     @Nullable
     protected abstract ViewBehavior provideHandleBehavior();
@@ -70,22 +71,22 @@ public abstract class ScrollerViewProvider {
         return bubbleBehavior;
     }
 
-    protected void onHandleGrabbed(){
+    public void onHandleGrabbed(){
         if(getHandleBehavior()!=null) getHandleBehavior().onHandleGrabbed();
         if(getBubbleBehavior()!=null) getBubbleBehavior().onHandleGrabbed();
     }
 
-    protected void onHandleReleased(){
+    public void onHandleReleased(){
         if(getHandleBehavior()!=null) getHandleBehavior().onHandleReleased();
         if(getBubbleBehavior()!=null) getBubbleBehavior().onHandleReleased();
     }
 
-    protected void onScrollStarted(){
+    public void onScrollStarted(){
         if(getHandleBehavior()!=null) getHandleBehavior().onScrollStarted();
         if(getBubbleBehavior()!=null) getBubbleBehavior().onScrollStarted();
     }
 
-    protected void onScrollFinished(){
+    public void onScrollFinished(){
         if(getHandleBehavior()!=null) getHandleBehavior().onScrollFinished();
         if(getBubbleBehavior()!=null) getBubbleBehavior().onScrollFinished();
     }

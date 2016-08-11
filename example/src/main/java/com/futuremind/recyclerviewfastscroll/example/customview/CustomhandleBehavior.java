@@ -6,8 +6,8 @@ import android.support.annotation.AnimatorRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.futuremind.recyclerviewfastscroll.ViewBehavior;
-import com.futuremind.recyclerviewfastscroll.VisibilityAnimationManager;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ViewBehavior;
+import com.futuremind.recyclerviewfastscroll.viewprovider.VisibilityAnimationManager;
 
 /**
  * Created by Michal on 11/08/16.

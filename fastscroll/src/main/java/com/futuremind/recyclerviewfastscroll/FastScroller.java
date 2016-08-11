@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultScrollerViewProvider;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ScrollerViewProvider;
+
 /**
  * Created by mklimczak on 28/07/15.
  */
