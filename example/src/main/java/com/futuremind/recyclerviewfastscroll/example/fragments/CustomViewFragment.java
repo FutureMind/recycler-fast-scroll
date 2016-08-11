@@ -1,6 +1,6 @@
 package com.futuremind.recyclerviewfastscroll.example.fragments;
 
-import com.futuremind.recyclerviewfastscroll.example.CustomScrollerViewProvider;
+import com.futuremind.recyclerviewfastscroll.example.customview.CustomScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.example.R;
 
 

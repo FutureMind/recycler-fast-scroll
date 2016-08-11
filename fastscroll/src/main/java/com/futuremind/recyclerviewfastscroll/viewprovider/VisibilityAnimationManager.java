@@ -1,14 +1,18 @@
-package com.futuremind.recyclerviewfastscroll;
+package com.futuremind.recyclerviewfastscroll.viewprovider;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
-import android.util.Log;
+import android.support.annotation.AnimatorRes;
 import android.view.View;
+
+import com.futuremind.recyclerviewfastscroll.R;
 
 /**
  * Created by Michal on 05/08/16.
+ * Animates showing and hiding elements of the {@link com.futuremind.recyclerviewfastscroll.FastScroller} (handle and bubble).
+ * The decision when to show/hide the element should be implemented via {@link ViewBehavior}.
  */
 public class VisibilityAnimationManager {
 
@@ -17,10 +21,13 @@ public class VisibilityAnimationManager {
     protected AnimatorSet hideAnimator;
     protected AnimatorSet showAnimator;
 
-    protected VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
+    private float pivotXRelative;
+    private float pivotYRelative;
+
+    protected VisibilityAnimationManager(final View view, @AnimatorRes int showAnimator, @AnimatorRes int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
-        view.setPivotX(pivotXRelative*view.getMeasuredWidth());
-        view.setPivotY(pivotYRelative*view.getMeasuredHeight());
+        this.pivotXRelative = pivotXRelative;
+        this.pivotYRelative = pivotYRelative;
         this.hideAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), hideAnimator);
         this.hideAnimator.setStartDelay(hideDelay);
         this.hideAnimator.setTarget(view);
@@ -44,18 +51,27 @@ public class VisibilityAnimationManager {
                 wasCanceled = true;
             }
         });
+
+        updatePivot();
     }
 
     public void show(){
         if (view.getVisibility() == View.INVISIBLE || hideAnimator.isRunning()) {
             hideAnimator.cancel();
             view.setVisibility(View.VISIBLE);
+            updatePivot();
             showAnimator.start();
         }
     }
 
     public void hide(){
+        updatePivot();
         hideAnimator.start();
+    }
+
+    protected void updatePivot() {
+        view.setPivotX(pivotXRelative*view.getMeasuredWidth());
+        view.setPivotY(pivotYRelative*view.getMeasuredHeight());
     }
 
     public static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
@@ -70,12 +86,12 @@ public class VisibilityAnimationManager {
             this.view = view;
         }
 
-        public AbsBuilder<T> withShowAnimator(int showAnimatorResource){
+        public AbsBuilder<T> withShowAnimator(@AnimatorRes int showAnimatorResource){
             this.showAnimatorResource = showAnimatorResource;
             return this;
         }
 
-        public AbsBuilder<T> withHideAnimator(int hideAnimatorResource){
+        public AbsBuilder<T> withHideAnimator(@AnimatorRes int hideAnimatorResource){
             this.hideAnimatorResource = hideAnimatorResource;
             return this;
         }

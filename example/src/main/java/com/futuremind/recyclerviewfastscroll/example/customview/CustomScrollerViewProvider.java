@@ -1,4 +1,4 @@
-package com.futuremind.recyclerviewfastscroll.example;
+package com.futuremind.recyclerviewfastscroll.example.customview;
 
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultBubbleBehavior;
 import com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener;
-import com.futuremind.recyclerviewfastscroll.ScrollerViewProvider;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.Utils;
-import com.futuremind.recyclerviewfastscroll.VisibilityAnimationManager;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ViewBehavior;
+import com.futuremind.recyclerviewfastscroll.viewprovider.VisibilityAnimationManager;
+import com.futuremind.recyclerviewfastscroll.example.R;
 
 /**
  * Created by Michal on 05/08/16.
@@ -62,13 +65,21 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
     }
 
     @Override
-    public VisibilityAnimationManager provideBubbleVisibilityManager() {
-        return new VisibilityAnimationManager.Builder(bubble).withHideDelay(0).build();
+    protected ViewBehavior provideHandleBehavior() {
+        return new CustomHandleBehavior(
+                new VisibilityAnimationManager.Builder(handle)
+                        .withHideDelay(2000)
+                        .build(),
+                new CustomHandleBehavior.HandleAnimationManager.Builder(handle)
+                        .withGrabAnimator(R.animator.custom_grab)
+                        .withReleaseAnimator(R.animator.custom_release)
+                        .build()
+        );
     }
 
     @Override
-    public VisibilityAnimationManager provideHandleVisibilityManager() {
-        return new VisibilityAnimationManager.Builder(handle).withHideDelay(2000).build();
+    protected ViewBehavior provideBubbleBehavior() {
+        return new DefaultBubbleBehavior(new VisibilityAnimationManager.Builder(bubble).withHideDelay(0).build());
     }
 
     private static ShapeDrawable drawCircle (int width, int height, int color) {

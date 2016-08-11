@@ -79,7 +79,7 @@ See the example code for more info.
 
 ### Custom views
 
-You can set custom layouts and show/hide animations for your handle and bubble, using:
+You can set custom layouts and animations for your handle and bubble, using:
 
 ```java
         myViewProvider = new MyScrollerViewProvider();
@@ -92,7 +92,7 @@ For more information, consult [`CustomScrollerViewProvider`](/example/src/main/j
 
 Download via Gradle:
 ```groovy
-compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.2'
+compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.3'
 ```
 
 ## License

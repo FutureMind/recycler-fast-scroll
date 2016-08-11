@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultScrollerViewProvider;
+import com.futuremind.recyclerviewfastscroll.viewprovider.ScrollerViewProvider;
+
 /**
  * Created by mklimczak on 28/07/15.
  */
@@ -181,7 +184,7 @@ public class FastScroller extends LinearLayout {
             public boolean onTouch(View v, MotionEvent event) {
                 requestDisallowInterceptTouchEvent(true);
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                    if(titleProvider!=null && event.getAction() == MotionEvent.ACTION_DOWN) viewProvider.handleGrabbed();
+                    if(titleProvider!=null && event.getAction() == MotionEvent.ACTION_DOWN) viewProvider.onHandleGrabbed();
                     manuallyChangingPosition = true;
                     float relativePos = getRelativeTouchPosition(event);
                     setScrollerPosition(relativePos);
@@ -189,7 +192,7 @@ public class FastScroller extends LinearLayout {
                     return true;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     manuallyChangingPosition = false;
-                    if(titleProvider!=null) viewProvider.handleReleased();
+                    if(titleProvider!=null) viewProvider.onHandleReleased();
                     return true;
                 }
                 return false;

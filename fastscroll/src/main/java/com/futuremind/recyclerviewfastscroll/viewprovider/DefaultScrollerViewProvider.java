@@ -1,4 +1,4 @@
-package com.futuremind.recyclerviewfastscroll;
+package com.futuremind.recyclerviewfastscroll.viewprovider;
 
 import android.graphics.drawable.InsetDrawable;
 import android.support.v4.content.ContextCompat;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.futuremind.recyclerviewfastscroll.R;
+import com.futuremind.recyclerviewfastscroll.Utils;
 
 /**
  * Created by Michal on 05/08/16.
@@ -49,13 +52,14 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
     }
 
     @Override
-    public VisibilityAnimationManager provideBubbleVisibilityManager() {
-        return new VisibilityAnimationManager.Builder(bubble).withPivotX(1f).withPivotY(1f).build();
+    protected ViewBehavior provideHandleBehavior() {
+        return null;
     }
 
     @Override
-    public VisibilityAnimationManager provideHandleVisibilityManager() {
-        return null;
+    protected ViewBehavior provideBubbleBehavior() {
+        return new DefaultBubbleBehavior(new VisibilityAnimationManager.Builder(bubble).withPivotX(1f).withPivotY(1f).build());
     }
+
 
 }

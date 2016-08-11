@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by Michal on 04/08/16.
- * Responsible for updating the handle position when user scrolls the {@link RecyclerView}.
+ * Responsible for updating the handle / bubble position when user scrolls the {@link RecyclerView}.
  */
 public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
