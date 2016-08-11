@@ -1,4 +1,4 @@
-package com.futuremind.recyclerviewfastscroll.example;
+package com.futuremind.recyclerviewfastscroll.example.customview;
 
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.futuremind.recyclerviewfastscroll.DefaultBubbleBehavior;
-import com.futuremind.recyclerviewfastscroll.HandleAnimationManager;
 import com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener;
 import com.futuremind.recyclerviewfastscroll.ScrollerViewProvider;
 import com.futuremind.recyclerviewfastscroll.Utils;
 import com.futuremind.recyclerviewfastscroll.ViewBehavior;
 import com.futuremind.recyclerviewfastscroll.VisibilityAnimationManager;
+import com.futuremind.recyclerviewfastscroll.example.R;
 
 /**
  * Created by Michal on 05/08/16.
@@ -66,31 +66,21 @@ public class CustomScrollerViewProvider extends ScrollerViewProvider {
 
     @Override
     protected ViewBehavior provideHandleBehavior() {
-        return null;
+        return new CustomHandleBehavior(
+                new VisibilityAnimationManager.Builder(handle)
+                        .withHideDelay(2000)
+                        .build(),
+                new CustomHandleBehavior.HandleAnimationManager.Builder(handle)
+                        .withGrabAnimator(R.animator.custom_grab)
+                        .withReleaseAnimator(R.animator.custom_release)
+                        .build()
+        );
     }
 
     @Override
     protected ViewBehavior provideBubbleBehavior() {
         return new DefaultBubbleBehavior(new VisibilityAnimationManager.Builder(bubble).withHideDelay(0).build());
     }
-
-//    @Override
-//    public VisibilityAnimationManager provideBubbleVisibilityManager() {
-//        return new VisibilityAnimationManager.Builder(bubble).withHideDelay(0).build();
-//    }
-//
-//    @Override
-//    public VisibilityAnimationManager provideHandleVisibilityManager() {
-//        return new VisibilityAnimationManager.Builder(handle).withHideDelay(2000).build();
-//    }
-//
-//    @Override
-//    protected HandleAnimationManager provideHandleAnimationManager() {
-//        return new HandleAnimationManager.Builder(handle)
-//                .withGrabAnimator(R.animator.custom_grab)
-//                .withReleaseAnimator(R.animator.custom_release)
-//                .build();
-//    }
 
     private static ShapeDrawable drawCircle (int width, int height, int color) {
         ShapeDrawable oval = new ShapeDrawable (new OvalShape());
