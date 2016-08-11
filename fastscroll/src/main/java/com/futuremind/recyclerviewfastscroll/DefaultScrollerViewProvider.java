@@ -49,13 +49,14 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
     }
 
     @Override
-    public VisibilityAnimationManager provideBubbleVisibilityManager() {
-        return new VisibilityAnimationManager.Builder(bubble).withPivotX(1f).withPivotY(1f).build();
+    protected ViewBehavior provideHandleBehavior() {
+        return null;
     }
 
     @Override
-    public VisibilityAnimationManager provideHandleVisibilityManager() {
-        return null;
+    protected ViewBehavior provideBubbleBehavior() {
+        return new DefaultBubbleBehavior(new VisibilityAnimationManager.Builder(bubble).withPivotX(1f).withPivotY(1f).build());
     }
+
 
 }

@@ -1,6 +1,8 @@
 package com.futuremind.recyclerviewfastscroll;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +14,8 @@ import android.widget.TextView;
 public abstract class ScrollerViewProvider {
 
     private FastScroller scroller;
-    private VisibilityAnimationManager bubbleVisibilityManager;
-    private VisibilityAnimationManager handleVisibilityManager;
-    private HandleAnimationManager handleAnimationManager;
-
-    private boolean isGrabbed;
+    private ViewBehavior handleBehavior;
+    private ViewBehavior bubbleBehavior;
 
     void setFastScroller(FastScroller scroller){
         this.scroller = scroller;
@@ -55,56 +54,40 @@ public abstract class ScrollerViewProvider {
      */
     protected abstract int getBubbleOffset();
 
-    /**
-     * @return {@link VisibilityAnimationManager} responsible for showing and hiding bubble.
-     */
-    protected abstract VisibilityAnimationManager provideBubbleVisibilityManager();
+    @Nullable
+    protected abstract ViewBehavior provideHandleBehavior();
 
-    /**
-     * @return {@link VisibilityAnimationManager} responsible for showing and hiding handle.
-     */
-    protected abstract VisibilityAnimationManager provideHandleVisibilityManager();
+    @Nullable
+    protected abstract ViewBehavior provideBubbleBehavior();
 
-    /**
-     * @return {@link HandleAnimationManager} responsible for animating handle grab/release
-     */
-    protected HandleAnimationManager provideHandleAnimationManager() { return null; }
-
-    private VisibilityAnimationManager getBubbleVisibilityManager(){
-        if(bubbleVisibilityManager==null) bubbleVisibilityManager = provideBubbleVisibilityManager();
-        return bubbleVisibilityManager;
+    protected ViewBehavior getHandleBehavior(){
+        if(handleBehavior==null) handleBehavior = provideHandleBehavior();
+        return handleBehavior;
     }
 
-    private VisibilityAnimationManager getHandleVisibilityManager(){
-        if(handleVisibilityManager==null) handleVisibilityManager = provideHandleVisibilityManager();
-        return handleVisibilityManager;
+    protected ViewBehavior getBubbleBehavior(){
+        if(bubbleBehavior==null) bubbleBehavior = provideBubbleBehavior();
+        return bubbleBehavior;
     }
 
-    private HandleAnimationManager getHandleAnimationManger(){
-        if(handleAnimationManager==null) handleAnimationManager = provideHandleAnimationManager();
-        return handleAnimationManager;
+    protected void onHandleGrabbed(){
+        if(getHandleBehavior()!=null) getHandleBehavior().onHandleGrabbed();
+        if(getBubbleBehavior()!=null) getBubbleBehavior().onHandleGrabbed();
     }
 
-    protected void handleGrabbed(){
-        isGrabbed = true;
-        if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().show();
-        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().show();
-        if(getHandleVisibilityManager()!=null) getHandleAnimationManger().onGrab();
-    }
-
-    protected void handleReleased(){
-        isGrabbed = false;
-        if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().hide();
-        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().hide();
-        if(getHandleVisibilityManager()!=null) getHandleAnimationManger().onRelease();
+    protected void onHandleReleased(){
+        if(getHandleBehavior()!=null) getHandleBehavior().onHandleReleased();
+        if(getBubbleBehavior()!=null) getBubbleBehavior().onHandleReleased();
     }
 
     protected void onScrollStarted(){
-        if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().show();
+        if(getHandleBehavior()!=null) getHandleBehavior().onScrollStarted();
+        if(getBubbleBehavior()!=null) getBubbleBehavior().onScrollStarted();
     }
 
     protected void onScrollFinished(){
-        if(getHandleVisibilityManager()!=null && !isGrabbed) getHandleVisibilityManager().hide();
+        if(getHandleBehavior()!=null) getHandleBehavior().onScrollFinished();
+        if(getBubbleBehavior()!=null) getBubbleBehavior().onScrollFinished();
     }
 
 }
