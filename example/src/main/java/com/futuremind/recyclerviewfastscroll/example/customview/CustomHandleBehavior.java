@@ -55,7 +55,7 @@ public class CustomHandleBehavior implements ViewBehavior{
         @Nullable
         private AnimatorSet releaseAnimator;
 
-        protected HandleAnimationManager(View handle, int grabAnimator, int releaseAnimator) {
+        protected HandleAnimationManager(View handle, @AnimatorRes int grabAnimator, @AnimatorRes int releaseAnimator) {
             if (grabAnimator != -1) {
                 this.grabAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(handle.getContext(), grabAnimator);
                 this.grabAnimator.setTarget(handle);

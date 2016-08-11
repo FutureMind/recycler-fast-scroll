@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.support.annotation.AnimatorRes;
 import android.view.View;
 
 import com.futuremind.recyclerviewfastscroll.R;
@@ -23,7 +24,7 @@ public class VisibilityAnimationManager {
     private float pivotXRelative;
     private float pivotYRelative;
 
-    protected VisibilityAnimationManager(final View view, int showAnimator, int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
+    protected VisibilityAnimationManager(final View view, @AnimatorRes int showAnimator, @AnimatorRes int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
         this.view = view;
         this.pivotXRelative = pivotXRelative;
         this.pivotYRelative = pivotYRelative;
@@ -85,12 +86,12 @@ public class VisibilityAnimationManager {
             this.view = view;
         }
 
-        public AbsBuilder<T> withShowAnimator(int showAnimatorResource){
+        public AbsBuilder<T> withShowAnimator(@AnimatorRes int showAnimatorResource){
             this.showAnimatorResource = showAnimatorResource;
             return this;
         }
 
-        public AbsBuilder<T> withHideAnimator(int hideAnimatorResource){
+        public AbsBuilder<T> withHideAnimator(@AnimatorRes int hideAnimatorResource){
             this.hideAnimatorResource = hideAnimatorResource;
             return this;
         }
