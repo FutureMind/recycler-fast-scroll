@@ -14,6 +14,7 @@ public abstract class ScrollerViewProvider {
     private FastScroller scroller;
     private VisibilityAnimationManager bubbleVisibilityManager;
     private VisibilityAnimationManager handleVisibilityManager;
+    private HandleAnimationManager handleAnimationManager;
 
     private boolean isGrabbed;
 
@@ -64,6 +65,11 @@ public abstract class ScrollerViewProvider {
      */
     protected abstract VisibilityAnimationManager provideHandleVisibilityManager();
 
+    /**
+     * @return {@link HandleAnimationManager} responsible for animating handle grab/release
+     */
+    protected HandleAnimationManager provideHandleAnimationManager() { return null; }
+
     private VisibilityAnimationManager getBubbleVisibilityManager(){
         if(bubbleVisibilityManager==null) bubbleVisibilityManager = provideBubbleVisibilityManager();
         return bubbleVisibilityManager;
@@ -74,16 +80,23 @@ public abstract class ScrollerViewProvider {
         return handleVisibilityManager;
     }
 
+    private HandleAnimationManager getHandleAnimationManger(){
+        if(handleAnimationManager==null) handleAnimationManager = provideHandleAnimationManager();
+        return handleAnimationManager;
+    }
+
     protected void handleGrabbed(){
         isGrabbed = true;
         if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().show();
         if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().show();
+        if(getHandleVisibilityManager()!=null) getHandleAnimationManger().onGrab();
     }
 
     protected void handleReleased(){
         isGrabbed = false;
         if(getBubbleVisibilityManager()!=null) getBubbleVisibilityManager().hide();
         if(getHandleVisibilityManager()!=null) getHandleVisibilityManager().hide();
+        if(getHandleVisibilityManager()!=null) getHandleAnimationManger().onRelease();
     }
 
     protected void onScrollStarted(){
