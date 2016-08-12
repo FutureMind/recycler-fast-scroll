@@ -33,6 +33,7 @@ public class FastScroller extends LinearLayout {
     private int bubbleColor;
     private int bubbleTextAppearance;
     private int scrollerOrientation;
+    private int maxVisibility;
 
     private boolean manuallyChangingPosition;
 
@@ -58,6 +59,7 @@ public class FastScroller extends LinearLayout {
         } finally {
             style.recycle();
         }
+        maxVisibility = getVisibility();
     }
 
     /**
@@ -210,12 +212,19 @@ public class FastScroller extends LinearLayout {
         }
     }
 
+    @Override
+    public void setVisibility(int visibility) {
+        maxVisibility = visibility;
+        invalidateVisibility();
+    }
+
     private void invalidateVisibility() {
         if(
                 recyclerView.getAdapter()==null ||
                 recyclerView.getAdapter().getItemCount()==0 ||
                 recyclerView.getChildAt(0)==null ||
-                isRecyclerViewNotScrollable()
+                isRecyclerViewNotScrollable() ||
+                maxVisibility != View.VISIBLE
                 ){
             setVisibility(INVISIBLE);
         } else {
