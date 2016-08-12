@@ -226,9 +226,9 @@ public class FastScroller extends LinearLayout {
                 isRecyclerViewNotScrollable() ||
                 maxVisibility != View.VISIBLE
                 ){
-            setVisibility(INVISIBLE);
+            super.setVisibility(INVISIBLE);
         } else {
-            setVisibility(VISIBLE);
+            super.setVisibility(VISIBLE);
         }
     }
 
