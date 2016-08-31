@@ -86,7 +86,7 @@ You can set custom layouts and animations for your handle and bubble, using:
         fastScroller.setViewProvider(myViewProvider);
 ```
 
-For more information, consult [`CustomScrollerViewProvider`](/example/src/main/java/com/futuremind/recyclerviewfastscroll/example/CustomScrollerViewProvider.java) in the example code.
+For more information, consult [`CustomScrollerViewProvider`](/example/src/main/java/com/futuremind/recyclerviewfastscroll/example/customview/CustomScrollerViewProvider.java) in the example code.
 
 ## Download
 
