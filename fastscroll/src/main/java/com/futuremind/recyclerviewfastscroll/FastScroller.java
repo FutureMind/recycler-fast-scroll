@@ -33,6 +33,8 @@ public class FastScroller extends LinearLayout {
     private int bubbleColor;
     private int bubbleTextAppearance;
     private int scrollerOrientation;
+
+    //TODO the name should be fixed, also check if there is a better way of handling the visibility, because this is somewhat convoluted
     private int maxVisibility;
 
     private boolean manuallyChangingPosition;
