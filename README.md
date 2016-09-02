@@ -40,6 +40,21 @@ In Activity/Fragment:
         fastScroller.setRecyclerView(recyclerView);
 ```
 
+In your `RecyclerView.Adapter`
+```java
+        public class MyAdapter ... implements SectionTitleProvider{
+            
+            ...
+            
+            @Override
+            public String getSectionTitle(int position) {
+                //this String will be shown in a bubble for specified position
+                return getItem(position).substring(0, 1);
+            }
+            
+        }
+```
+
 ### Horizontal orientation
 
 You can use this library with horizontal LayoutManager. To do it use android:orientation="horizontal" attribute:
