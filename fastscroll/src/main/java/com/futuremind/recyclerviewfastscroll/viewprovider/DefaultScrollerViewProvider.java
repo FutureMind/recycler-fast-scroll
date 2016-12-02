@@ -16,7 +16,7 @@ import com.futuremind.recyclerviewfastscroll.Utils;
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
     protected View bubble;
-    ptotected View handle;
+    protected View handle;
 
     @Override
     public View provideHandleView(ViewGroup container) {
