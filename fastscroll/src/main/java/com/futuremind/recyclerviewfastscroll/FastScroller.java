@@ -62,6 +62,7 @@ public class FastScroller extends LinearLayout {
             style.recycle();
         }
         maxVisibility = getVisibility();
+        setViewProvider(new DefaultScrollerViewProvider());
     }
 
     /**
@@ -87,7 +88,6 @@ public class FastScroller extends LinearLayout {
      */
     public void setRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
-        if(viewProvider==null) setViewProvider(new DefaultScrollerViewProvider());
         if(recyclerView.getAdapter() instanceof SectionTitleProvider) titleProvider = (SectionTitleProvider) recyclerView.getAdapter();
         recyclerView.addOnScrollListener(scrollListener);
         invalidateVisibility();
