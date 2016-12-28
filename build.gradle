@@ -27,4 +27,5 @@ ext{
     targetSdkVersion="25"
     versionName="0.2.5"
     versionCode=1
+    supportVersion="25.1.0"
 }
