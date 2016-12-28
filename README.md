@@ -107,7 +107,7 @@ For more information, consult [`CustomScrollerViewProvider`](/example/src/main/j
 
 Download via Gradle:
 ```groovy
-compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
+compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 ```
 
 ## License
