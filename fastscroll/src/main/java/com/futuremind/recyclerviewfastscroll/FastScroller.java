@@ -164,8 +164,10 @@ public class FastScroller extends LinearLayout {
 
         applyStyling(); //TODO this doesn't belong here, even if it works
 
-        //sometimes recycler starts with a defined scroll (e.g. when coming from saved state)
-        scrollListener.updateHandlePosition(recyclerView);
+        if (!isInEditMode()) {
+            //sometimes recycler starts with a defined scroll (e.g. when coming from saved state)
+            scrollListener.updateHandlePosition(recyclerView);
+        }
 
     }
 
