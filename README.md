@@ -55,6 +55,8 @@ In your `RecyclerView.Adapter`
         }
 ```
 
+**Note**: You have to populate your adapter with enought items for the `FastScroll` to show. I has an auto-hide mechanism in case there is nothing to scroll.
+
 ### Horizontal orientation
 
 You can use this library with horizontal LayoutManager. To do it use android:orientation="horizontal" attribute:
