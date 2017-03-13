@@ -29,6 +29,7 @@ public class FastScroller extends LinearLayout {
     private TextView bubbleTextView;
 
     private int bubbleOffset;
+    private int bubbleMargin;
     private int handleColor;
     private int bubbleColor;
     private int bubbleTextAppearance;
@@ -56,6 +57,7 @@ public class FastScroller extends LinearLayout {
         TypedArray style = context.obtainStyledAttributes(attrs, R.styleable.fastscroll__fastScroller, R.attr.fastscroll__style, 0);
         try {
             bubbleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__bubbleColor, STYLE_NONE);
+            bubbleMargin = style.getDimensionPixelSize(R.styleable.fastscroll__fastScroller_fastscroll__bubbleMargin, 0);
             handleColor = style.getColor(R.styleable.fastscroll__fastScroller_fastscroll__handleColor, STYLE_NONE);
             bubbleTextAppearance = style.getResourceId(R.styleable.fastscroll__fastScroller_fastscroll__bubbleTextAppearance, STYLE_NONE);
         } finally {
@@ -78,6 +80,8 @@ public class FastScroller extends LinearLayout {
         bubbleTextView = viewProvider.provideBubbleTextView();
         addView(bubble);
         addView(handle);
+
+        updateMargin();
     }
 
     /**
@@ -147,6 +151,15 @@ public class FastScroller extends LinearLayout {
     }
 
     /**
+     * Sets the margin between the bubble and handle
+     * @param marginPx the margin in pixels
+     */
+    public void setBubbleMargin(int marginPx) {
+        bubbleMargin = marginPx;
+        requestLayout();
+    }
+
+    /**
      * Add a {@link com.futuremind.recyclerviewfastscroll.RecyclerViewScrollListener.ScrollerListener}
      * to be notified of user scrolling
      * @param listener
@@ -169,6 +182,20 @@ public class FastScroller extends LinearLayout {
             scrollListener.updateHandlePosition(recyclerView);
         }
 
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        updateMargin();
+    }
+
+    private void updateMargin() {
+        final int right = isVertical() ? bubbleMargin : 0;
+        final int bottom = !isVertical() ? bubbleMargin : 0;
+        final LayoutParams bubbleParams = (LayoutParams) bubble.getLayoutParams();
+        bubbleParams.setMargins(0, 0, right, bottom);
+        bubble.setLayoutParams(bubbleParams);
     }
 
     private void applyStyling() {
