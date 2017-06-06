@@ -28,4 +28,5 @@ ext{
     versionName="0.2.5"
     versionCode=1
     supportVersion="25.1.0"
+    junitVersion="4.12"
 }

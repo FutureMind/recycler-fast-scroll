@@ -26,6 +26,7 @@ public class Utils {
     }
 
     public static float getValueInRange(float min, float max, float value) {
+        if (min > max) return min;
         float minimum = Math.max(min, value);
         return Math.min(minimum, max);
     }
