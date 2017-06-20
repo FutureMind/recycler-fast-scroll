@@ -56,11 +56,11 @@ public class CustomHandleBehavior implements ViewBehavior{
         private AnimatorSet releaseAnimator;
 
         protected HandleAnimationManager(View handle, @AnimatorRes int grabAnimator, @AnimatorRes int releaseAnimator) {
-            if (grabAnimator != -1) {
+            if (grabAnimator != 0) {
                 this.grabAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(handle.getContext(), grabAnimator);
                 this.grabAnimator.setTarget(handle);
             }
-            if (releaseAnimator != -1) {
+            if (releaseAnimator != 0) {
                 this.releaseAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(handle.getContext(), releaseAnimator);
                 this.releaseAnimator.setTarget(handle);
             }
