@@ -23,8 +23,8 @@ android {
 
     defaultConfig {
         applicationId "com.futuremind.recyclerviewfastscroll.example"
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode rootProject.versionCode
         versionName rootProject.versionName
     }
