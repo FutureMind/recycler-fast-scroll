@@ -55,7 +55,7 @@ In your `RecyclerView.Adapter`
         }
 ```
 
-**Note**: You have to populate your adapter with enough items for the `FastScroll` to show. I has an auto-hide mechanism in case there is nothing to scroll.
+**Note**: You have to populate your adapter with enough items for the `FastScroll` to show. It has an auto-hide mechanism in case there is nothing to scroll.
 
 ### Horizontal orientation
 
