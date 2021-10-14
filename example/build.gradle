@@ -1,26 +1,25 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+    compileSdkVersion 29
 
-    signingConfigs {
-
-        def pathToProperties = "keyz/signing.properties"
-        if (!(file(pathToProperties)).exists()) {
-            throw new GradleException("You have to specify a valid signing properties file.")
-        }
-        Properties props = new Properties()
-        props.load(new FileInputStream(file(pathToProperties)))
-
-        release {
-            keyAlias props['keyAlias']
-            keyPassword props['keyPassword']
-            storePassword props['storePassword']
-            storeFile file('keyz/keystore.jks')
-        }
-
-    }
+//    signingConfigs {
+//
+//        def pathToProperties = "keyz/signing.properties"
+//        if (!(file(pathToProperties)).exists()) {
+//            throw new GradleException("You have to specify a valid signing properties file.")
+//        }
+//        Properties props = new Properties()
+//        props.load(new FileInputStream(file(pathToProperties)))
+//
+//        release {
+//            keyAlias props['keyAlias']
+//            keyPassword props['keyPassword']
+//            storePassword props['storePassword']
+//            storeFile file('keyz/keystore.jks')
+//        }
+//
+//    }
 
     defaultConfig {
         applicationId "com.futuremind.recyclerviewfastscroll.example"
@@ -32,17 +31,17 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':fastscroll')
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':fastscroll')
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
