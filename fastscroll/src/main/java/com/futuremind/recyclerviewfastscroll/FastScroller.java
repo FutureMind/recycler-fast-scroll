@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.TextViewCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -248,7 +250,13 @@ public class FastScroller extends LinearLayout {
         if (recyclerView == null) return;
         int itemCount = recyclerView.getAdapter().getItemCount();
         int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
-        recyclerView.scrollToPosition(targetPos);
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+            ((LinearLayoutManager)recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, 0);
+        } else if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+            ((GridLayoutManager)recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, 0);
+        } else {
+            recyclerView.scrollToPosition(targetPos);
+        }
         if(titleProvider!=null && bubbleTextView!=null) bubbleTextView.setText(titleProvider.getSectionTitle(targetPos));
     }
 
